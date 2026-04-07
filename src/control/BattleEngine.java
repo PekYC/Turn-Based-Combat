@@ -4,6 +4,7 @@ import java.util.List;
 
 import boundary.UserInterface;
 import entity.BattleState;
+import entity.BattleStatus;
 import entity.Combatants;
 
 public class BattleEngine {
@@ -23,7 +24,7 @@ public class BattleEngine {
 	}
 	
 	public void run() {
-		while (state.getStatus() != currentStatus.DEFEATED) {
+		while (state.getStatus() != BattleStatus.DEFEATED) {
 			List<Combatants> turnOrder = orderStrategy.calculateTurnOrder(state.getActiveWave());
 			
 			for (Combatants c : turnOrder) {
@@ -32,12 +33,12 @@ public class BattleEngine {
 					TurnSummary summary = c.endTurn();
 					ui.display(summary);
 					
-					currentStatus status = state.getStatus();
+					BattleStatus status = state.getStatus();
 					
-					if (status == currentStatus.WAVE_CLEARED) {
+					if (status == BattleStatus.WAVE_CLEARED) {
 						state.spawnNextWave();
 						ui.display(state.getActiveWave());
-					} else if (status == currentStatus.DEFEATED) {
+					} else if (status == BattleStatus.DEFEATED) {
 						break;
 					}
 				}

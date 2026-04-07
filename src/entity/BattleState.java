@@ -10,12 +10,6 @@ public class BattleState {
 	private Queue<Wave> waveQueue;
 	private Wave activeWave;
 	private Combatants player;
-	private enum currentStatus {
-		CONTINUE,
-		WAVE_CLEARED,
-		DEFEATED,
-		VICTORY
-	}
 	
 	public BattleState(Level l, Combatants player) {
 		this.level = l;
@@ -28,20 +22,20 @@ public class BattleState {
 		roundCount++;
 	}
 	
-	public currentStatus getStatus() {
+	public BattleStatus getStatus() {
 		if (!player.isAlive()) {
-			return currentStatus.DEFEATED;
+			return BattleStatus.DEFEATED;
 		}
 		
 		if (activeWave.isDefeated) {
 			if (waveQueue.isEmpty()) {
-				return currentStatus.VICTORY;
+				return BattleStatus.VICTORY;
 			} else {
-				return currentStatus.WAVE_CLEARED;
+				return BattleStatus.WAVE_CLEARED;
 			}
 		}
 		
-		return currentStatus.CONTINUE;
+		return BattleStatus.CONTINUE;
 		
 	}
 	
