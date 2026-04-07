@@ -1,72 +1,69 @@
 package entity;
 
 public abstract class Combatants {
-	private String name;
-    private int hp;
-    private int maxHp;
-    private int attack;
-    private int defense;
-    private int speed;
+	protected String name;
+    protected int hp, maxHp, attack, defense, speed;
+    
+    // Status tracking 
+    protected int stunDuration = 0;   // Unable to act for current and next turn
+    protected int defendDuration = 0; // +10 DEF for current and next round 
+    protected int specialCooldown = 0; // Cooldown for special skills 
+    protected TurnSummary lastTurnSummary;
 
-    // Status effects
-    private boolean isStunned = false;
-    private int stunDuration = 0;
-    private boolean isDefending = false;
-    private int skillCooldown = 0;
-
-    public Combatants(String name, int maxHp, int attack, int defense, int speed) {
+    public Combatants(String name, int hp, int attack, int defense, int speed) {
         this.name = name;
-        this.maxHp = maxHp;
-        this.hp = maxHp; 
+        this.maxHp = hp;
+        this.hp = hp;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
     }
 
-    public void takeDamage(int incomingAttack) {
-        // While defending, provide boost
-        int effectiveDefense = isDefending ? (this.defense + 10) : this.defense;
-
-        // Formula: Damage = max(0, Attacker Attack - Target Defense)
-        int damageDealt = Math.max(0, incomingAttack - effectiveDefense);
-
-        this.hp -= damageDealt;
-
-        // HP never drops below 0
-        if (this.hp < 0) this.hp = 0;
-
-        System.out.println(this.name + " takes " + damageDealt + " damage! [HP: " + this.hp + "/" + this.maxHp + "]");
-    }
-
-    // Item implementation
-    public void heal(int amount) {
-        this.hp += amount;
-        // HP cannot exceed maximum HP
-        if (this.hp > this.maxHp) this.hp = this.maxHp;
-        System.out.println(this.name + " healed for " + amount + ". [HP: " + this.hp + "/" + this.maxHp + "]");
-    }
-
-    // Status management 
-    public void updateTurnStatus() {
-        if (stunDuration > 0) {
-            stunDuration--;
-            if (stunDuration == 0) isStunned = false;
+     // Damage = max(0, Attacker Atk - Target Def) 
+     // HP clamping at 0
+    public int receiveDamage(int rawAtk) {
+        int currentDef = this.defense;
+        if (defendDuration > 0) {
+            currentDef += 10; // Defend bonus 
         }
-        if (skillCooldown > 0) {
-            skillCooldown--;
-        }
-        isDefending = false; 
+
+        int damageTaken = Math.max(0, rawAtk - currentDef);
+        this.hp = Math.max(0, this.hp - damageTaken); 
+        return damageTaken;
     }
 
+     // New HP = min(Current + Heal, Max HP) 
+    public int receiveHealing(int amount) {
+        int oldHp = this.hp;
+        this.hp = Math.min(this.hp + amount, this.maxHp);
+        return this.hp - oldHp; 
+    }
+
+    public void updateStatus() {
+        if (stunDuration > 0) stunDuration--;
+        if (defendDuration > 0) defendDuration--;
+        if (specialCooldown > 0) specialCooldown--;
+    }
+
+    public abstract void performTurn(BattleState state);
+
+    public TurnSummary endTurn() {
+        updateStatus(); 
+        return lastTurnSummary;
+    }
+
+    // Getters & Setters
+    public boolean isAlive() { return hp > 0; }
+    public boolean isStunned() { return stunDuration > 0; }
     public String getName() { return name; }
-    public int getHp() { return hp; }
-    public int getAttack() { return attack; }
-    public void setAttack(int newAtk) { this.attack = newAtk; } 
     public int getSpeed() { return speed; }
-    public boolean isStunned() { return isStunned; }
-    public void applyStun(int duration) { this.isStunned = true; this.stunDuration = duration; }
-    public void setDefending(boolean state) { this.isDefending = state; }
-    public int getSkillCooldown() { return skillCooldown; }
-    public void startSkillCooldown() { this.skillCooldown = 3; } 
+    public int getAttack() { return attack; }
+    public int getHp() { return hp; }
+    public int getSpecialCooldown() { return specialCooldown; }
+    
+    public void setStunned(int duration) { this.stunDuration = duration; }
+    public void setDefending(int duration) { this.defendDuration = duration; }
+    public void setSpecialCooldown(int duration) { this.specialCooldown = duration; }
+    public void boostAttack(int amount) { this.attack += amount; }
 }
 
