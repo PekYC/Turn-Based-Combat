@@ -27,7 +27,7 @@ public class BattleState {
 			return BattleStatus.DEFEATED;
 		}
 		
-		if (activeWave.isDefeated) {
+		if (activeWave.isDefeated()) {
 			if (waveQueue.isEmpty()) {
 				return BattleStatus.VICTORY;
 			} else {
