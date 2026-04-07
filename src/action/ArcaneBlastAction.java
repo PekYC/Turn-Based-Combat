@@ -1,27 +1,41 @@
 package action;
 
 import entity.Combatants;
+import entity.TurnSummary;
+import entity.ActionType;
 import java.util.List;
 
 public class ArcaneBlastAction implements Action {
     @Override
-    public void execute(Combatants user, List<Combatants> enemies) {
-        System.out.println(user.getName() + " unleashes an arcane blast!");
+    public TurnSummary execute(Combatants user, List<Combatants> targets) {
+        int totalDamage = 0;
+        boolean anyKilled = false;
 
-        for (Combatants enemy : enemies) {
-            if (enemy.getHp() > 0) {
-                // Record HP before damage to identify a kill
-                int hpBefore = enemy.getHp();
-                enemy.takeDamage(user.getAttack());
-
-                // If enemy was alive and is now defeated 
-                if (hpBefore > 0 && enemy.getHp() == 0) {
-                    // Permanent boost: +10 ATK 
-                    user.setAttack(user.getAttack() + 10);
-                    System.out.println("Wizard's power grows! ATK is now " + user.getAttack());
+        // Deal damage to all enemies currently in combat 
+        for (Combatants target : targets) {
+            if (target.isAlive()) {               
+                int damage = target.receiveDamage(user.getAttack());
+                totalDamage += damage;
+                
+                // Each enemy defeated adds 10 to Wizard's Attack 
+                if (!target.isAlive()) {
+                    user.boostAttack(10);
+                    anyKilled = true;
                 }
             }
         }
-        user.startSkillCooldown(); 
+
+        user.setSpecialCooldown(3);
+
+        return new TurnSummary(
+            user.getName(), 
+            "", 
+            ActionType.ARCANE_BLAST, 
+            totalDamage, 
+            0, 
+            false, 
+            anyKilled, 
+            true // isAreaEffect = true
+        );
     }
 }
