@@ -1,6 +1,5 @@
-package control;
+package entity;
 
-import entity.Combatants;
 import java.util.ArrayList;
 import java.util.List;
 
