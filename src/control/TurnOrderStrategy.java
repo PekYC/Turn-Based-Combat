@@ -1,7 +1,7 @@
 package control;
 import java.util.List;
-import entity.Combatant;
+import entity.Combatants;
 
 public interface TurnOrderStrategy {
-	public List<Combatant> calculateTurnOrder(List<Combatant> active_combatants);
+	public List<Combatants> calculateTurnOrder(List<Combatants> active_combatants);
 }
