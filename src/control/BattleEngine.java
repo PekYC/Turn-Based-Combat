@@ -26,7 +26,7 @@ public class BattleEngine {
 	
 	public void run() {
 		while (state.getStatus() != BattleStatus.DEFEATED) {
-			List<Combatants> turnOrder = orderStrategy.calculateTurnOrder(state.getActiveWave());
+			List<Combatants> turnOrder = orderStrategy.calculateTurnOrder(state.getActiveEnemies());
 			
 			for (Combatants c : turnOrder) {
 				if (c.isAlive()) {
