@@ -59,6 +59,7 @@ public abstract class Combatants {
     public int getSpeed() { return speed; }
     public int getAttack() { return attack; }
     public int getHp() { return hp; }
+    public int getMaxHp() { return maxHp; }
     public int getSpecialCooldown() { return specialCooldown; }
     
     public void setStunned(int duration) { this.stunDuration = duration; }
