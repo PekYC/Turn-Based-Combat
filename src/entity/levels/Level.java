@@ -1,7 +1,9 @@
-package entity;
+package entity.levels;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import entity.Wave;
 
 public abstract class Level {
     protected List<Wave> waves = new ArrayList<>();

@@ -1,7 +1,11 @@
-package entity;
+package entity.levels;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import entity.Combatants;
+import entity.Goblin;
+import entity.Wave;
 
 public class Easy extends Level {
 	public Easy() {

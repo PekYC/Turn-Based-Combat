@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import entity.levels.Level;
+
 public class BattleState {
 	private Integer roundCount = 1;
 	private Level level;

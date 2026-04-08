@@ -1,7 +1,12 @@
-package entity;
+package entity.levels;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import entity.Combatants;
+import entity.Goblin;
+import entity.Wave;
+import entity.Wolf;
 
 public class Medium extends Level {
 	public Medium() {
