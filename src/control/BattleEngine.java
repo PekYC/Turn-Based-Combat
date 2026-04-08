@@ -6,6 +6,7 @@ import boundary.UserInterface;
 import entity.BattleState;
 import entity.BattleStatus;
 import entity.Combatants;
+import entity.TurnSummary;
 
 public class BattleEngine {
 	private BattleState state;
@@ -29,7 +30,7 @@ public class BattleEngine {
 			
 			for (Combatants c : turnOrder) {
 				if (c.isAlive()) {
-					c.performTurn();
+					c.performTurn(state);
 					TurnSummary summary = c.endTurn();
 					ui.display(summary);
 					
@@ -46,6 +47,8 @@ public class BattleEngine {
 			
 			endRound();
 		}
+		
+		ui.endOfBattleReport(state);
 	}
 	
 }

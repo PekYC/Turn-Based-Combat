@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class BattleState {
@@ -40,6 +41,10 @@ public class BattleState {
 	
 	public Wave getActiveWave() {
 		return activeWave;
+	}
+	
+	public List<Combatants> getActiveEnemies() {
+		return activeWave.getEnemies();
 	}
 	
 	public Wave spawnNextWave() {
