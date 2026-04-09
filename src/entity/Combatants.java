@@ -8,6 +8,7 @@ public abstract class Combatants {
     protected int stunDuration = 0;   // Unable to act for current and next turn
     protected int defendDuration = 0; // +10 DEF for current and next round 
     protected int specialCooldown = 0; // Cooldown for special skills 
+	protected int smokeBombDuration = 0; // Enemy attacks deal 0 damage for current and next turn
     protected TurnSummary lastTurnSummary;
 
     public Combatants(String name, int hp, int attack, int defense, int speed) {
@@ -22,7 +23,12 @@ public abstract class Combatants {
      // Damage = max(0, Attacker Atk - Target Def) 
      // HP clamping at 0
     public int receiveDamage(int rawAtk) {
-        int currentDef = this.defense;
+        if (smokeBombDuration > 0) {
+			System.out.println(name + " is protected by Smoke Bomb! 0 damage taken.");
+			return 0; 
+		}
+		
+		int currentDef = this.defense;
         if (defendDuration > 0) {
             currentDef += 10; // Defend bonus 
         }
@@ -43,6 +49,7 @@ public abstract class Combatants {
         if (stunDuration > 0) stunDuration--;
         if (defendDuration > 0) defendDuration--;
         if (specialCooldown > 0) specialCooldown--;
+		if (smokeBombDuration > 0) smokeBombDuration--;
     }
 
     public abstract void performTurn(BattleState state);
@@ -65,6 +72,7 @@ public abstract class Combatants {
     public void setStunned(int duration) { this.stunDuration = duration; }
     public void setDefending(int duration) { this.defendDuration = duration; }
     public void setSpecialCooldown(int duration) { this.specialCooldown = duration; }
+	public void setSmokeBombDuration(int duration) { this.smokeBombDuration = duration; }
     public void boostAttack(int amount) { this.attack += amount; }
 }
 
