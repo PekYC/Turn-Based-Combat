@@ -120,4 +120,21 @@ public class CLI_UI implements UserInterface {
 	public void display(BattleState gamestate) {
 		System.out.println("\nRound updated in BattleState.");
 	}
+	
+	// This is the main method that lets you run and test your UI!
+		public static void main(String[] args) {
+			
+			// 1. We create an instance of your UI
+			CLI_UI myGameUI = new CLI_UI();
+			
+			// 2. We call the starting screen methods one by one
+			myGameUI.displayLoadingScreen();
+			
+			// (We save the player's choices in variables just to test it)
+			int difficulty = myGameUI.promptDifficultySelection();
+			int characterClass = myGameUI.promptCharacterSelection();
+			myGameUI.promptItemSelection();
+			
+			System.out.println("\n[SYSTEM]: UI Test completed successfully!");
+		}
 }

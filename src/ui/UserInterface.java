@@ -12,7 +12,7 @@ public interface UserInterface {
 	
 	int promptDifficultySelection();
 	
-	int promptCharacterSelection();
+	Combatants promptCharacterSelection();
 	
 	List<String> promptItemSelection();
 	
