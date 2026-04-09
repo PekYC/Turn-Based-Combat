@@ -12,12 +12,14 @@ public class BattleState {
 	private Queue<Wave> waveQueue;
 	private Wave activeWave;
 	private Combatants player;
+	private List<Item> items;
 	
-	public BattleState(Level l, Combatants player) {
+	public BattleState(Level l, Combatants player, List<Item> items) {
 		this.level = l;
 		this.waveQueue = new LinkedList<>(level.getWaves());
 		this.activeWave = waveQueue.poll();
 		this.player = player;
+		this.items = items;
 	}
 
 	public void incrementRound() {
