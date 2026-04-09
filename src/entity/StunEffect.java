@@ -9,13 +9,13 @@ public class StunEffect implements StatusEffect {
 
     @Override
     public void apply(Combatants target) {
-        target.setStunned(true);
+        target.setStunned(turnsRemaining);
         turnsRemaining--;
     }
 
     @Override
     public void remove(Combatants target) {
-        target.setStunned(false);
+        target.setStunned(0);
     }
 
     @Override

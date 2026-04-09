@@ -14,7 +14,7 @@ public class SmokeBombEffect implements StatusEffect {
 
     @Override
     public void remove(Combatants target) {
-        target.setSmokeBombActive(false);
+        target.setSmokeBombDuration(0);
     }
 
     @Override

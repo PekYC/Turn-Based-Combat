@@ -1,4 +1,4 @@
-package action;
+package entity.actions;
 
 import entity.Combatants;
 import entity.TurnSummary;
