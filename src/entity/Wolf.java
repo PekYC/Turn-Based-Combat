@@ -6,8 +6,6 @@ import entity.actions.BasicAttack;
 public class Wolf extends Combatants {
 
     public Wolf(String id) {
-        // HP: 40, Attack: 45, Defense: 5, Speed: 35
-
         super("Wolf " + id, 40, 45, 5, 35);
     }
 
@@ -15,12 +13,27 @@ public class Wolf extends Combatants {
     public void performTurn(BattleState state) {
         if (isStunned()) {
             this.lastTurnSummary = new TurnSummary(
-                this.name, 
-                this.name, 
-                ActionType.STUNNED_SKIP, 
-                0, 0, false, false, false
+                this.name,
+                this.name,
+                ActionType.STUNNED_SKIP,
+                0,
+                0,
+                false,
+                false,
+                false,
+                this.hp,
+                this.hp,
+                0,
+                0
             );
             return;
+        }
+
+        this.selectedAction = new BasicAttack();
+        this.selectedTargets = List.of(state.getPlayer());
+
+        if (this.selectedAction != null && this.selectedTargets != null) {
+            this.lastTurnSummary = this.selectedAction.execute(this, this.selectedTargets);
         }
     }
 }

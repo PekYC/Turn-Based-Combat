@@ -13,6 +13,12 @@ import entity.Item;
 import entity.Potion;
 import entity.PowerStone;
 import entity.SmokeBomb;
+import entity.actions.Action;
+import entity.actions.BasicAttack;
+import entity.actions.DefendSkill;
+import entity.actions.ShieldBash;
+import entity.actions.ArcaneBlastAction;
+import entity.ActionType;
 
 public class CLI_UI implements UserInterface {
 	
@@ -78,44 +84,40 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public void displayBattleState(Combatants player, List<Combatants> enemies, int roundNumber) {
-		System.out.println("\n--- ROUND " + roundNumber + " ---");
-		System.out.println("Player HP: " + player.getHp() + " / " + player.getMaxHp());
-		System.out.println("Enemies Alive:");
-		
-		for (int i = 0; i < enemies.size(); i++) {
-			Combatants enemy = enemies.get(i);
-			if (enemy.isAlive()) {
-				 System.out.println(" - Enemy " + (i+1) + " HP: " + enemy.getHp());
-			}
-		}
-	}
-
-	@Override
-	public int promptPlayerAction() {
-		System.out.println("\nChoose Action:");
+	public Action promptAction(Combatants player, BattleState state) {
+		System.out.println("\n--- PLAYER TURN: " + player.getName() + " ---");
+		System.out.println("HP: " + player.getHp() + "/" + player.getMaxHp() + " | CD: " + player.getSpecialCooldown());
+		System.out.println("Choose Action:");
 		System.out.println("1. Basic Attack");
 		System.out.println("2. Defend");
-		System.out.println("3. Use Item");
-		System.out.println("4. Special Skill");
-		System.out.print("Enter choice (1-4): ");
-		return scanner.nextInt();
+		System.out.println("3. Special Skill");
+		System.out.print("Enter choice (1-3): ");
+		
+		int choice = scanner.nextInt();
+		return switch (choice) {
+			case 2 -> new DefendSkill();
+			case 3 -> (player instanceof Warrior) ? new ShieldBash() : new ArcaneBlastAction();
+			default -> new BasicAttack();
+		};
 	}
 
 	@Override
-	public void displayVictoryScreen(int remainingHp, int totalRounds) {
-		System.out.println("\n=========================================");
-		System.out.println("VICTORY! All enemies defeated.");
-		System.out.println("Remaining HP: " + remainingHp + " | Rounds: " + totalRounds);
-		System.out.println("=========================================");
-	}
+	public List<Combatants> promptTargets(Action action, Combatants player, BattleState state) {
+		if (action instanceof DefendSkill) {
+			return List.of(player);
+		}
 
-	@Override
-	public void displayDefeatScreen(int enemiesRemaining, int totalRounds) {
-		System.out.println("\n=========================================");
-		System.out.println("DEFEAT... You have fallen in battle.");
-		System.out.println("Enemies left: " + enemiesRemaining + " | Rounds: " + totalRounds);
-		System.out.println("=========================================");
+		List<Combatants> enemies = state.getActiveEnemies();
+		System.out.println("\nSelect Target:");
+		for (int i = 0; i < enemies.size(); i++) {
+			Combatants e = enemies.get(i);
+			if (e.isAlive()) {
+				System.out.println((i + 1) + ". " + e.getName() + " (HP: " + e.getHp() + ")");
+			}
+		}
+		System.out.print("Enter choice: ");
+		int choice = scanner.nextInt();
+		return List.of(enemies.get(choice - 1));
 	}
 
 	@Override
@@ -124,12 +126,22 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public void endOfBattleReport(BattleState gameState) {
+	public void endOfBattleReport(BattleState state) {
 		System.out.println("\n[Battle Report] Ending game state recorded.");
+		if (state.getPlayer().isAlive()) {
+			System.out.println("Final Result: VICTORY");
+		} else {
+			System.out.println("Final Result: DEFEAT");
+		}
 	}
 
 	@Override
 	public void display(TurnSummary turnSummary) {
+		if (turnSummary.getActionType() == ActionType.STUNNED_SKIP) {
+			System.out.println("\n" + turnSummary.getAttackerName() + " is stunned and skips their turn!");
+			return;
+		}
+
 		String output = String.format("%s → %s → %s: HP: %d → %d (dmg: %d-%d=%d)",
 			turnSummary.getAttackerName(),
 			turnSummary.getActionType(),
@@ -143,6 +155,7 @@ public class CLI_UI implements UserInterface {
 		
 		System.out.println("\nTurn Summary: " + output);
 	}
+
 	@Override
 	public void display(Wave wave) {
 		List<Combatants> waveEnemies = wave.getEnemies();
@@ -157,14 +170,13 @@ public class CLI_UI implements UserInterface {
 			}
 		}
 
-		System.out.println("All initial enemies eliminated \u2192 Backup Spawn triggered! " 
+		System.out.println("\nAll initial enemies eliminated → Backup Spawn triggered! " 
 				   + enemyInfo + " enter simultaneously"); 
 	}
 
 	@Override
-	public void display(BattleState gamestate) {
-		System.out.println("\nCurrent round state updated.");
+	public void display(BattleState state) {
+		System.out.println("\n--- ROUND " + state.getRoundCount() + " ---");
+		System.out.println("Round state updated.");
 	}
-	
-
 }
