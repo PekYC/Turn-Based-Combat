@@ -1,6 +1,5 @@
 package entity;
 
-
 public class Wizard extends Combatants {
 
     public Wizard() {

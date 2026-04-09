@@ -1,5 +1,8 @@
 package entity;
 
+import java.util.List;
+import entity.actions.BasicAttack;
+
 public class Wolf extends Combatants {
 
     public Wolf(String id) {
