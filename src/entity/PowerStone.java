@@ -11,7 +11,7 @@ public class PowerStone implements Item {
     @Override
     public void use(Combatants user) {
         System.out.println(user.getName() + " used Power Stone!");
-        int savedCooldown = user.getSkillCooldown();
-        user.setSkillCooldown(savedCooldown); // restore — Power Stone does not affect cooldown
+        int savedCooldown = user.getSpecialCooldown();
+        user.setSpecialCooldown(savedCooldown); // restore — Power Stone does not affect cooldown
     }
 }
