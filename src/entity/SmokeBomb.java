@@ -10,7 +10,7 @@ public class SmokeBomb implements Item {
 
     @Override
     public void use(Combatants user) {
-        user.applySmokeBomb();
+        user.setSmokeBombDuration(2);
         System.out.println(user.getName() + " used Smoke Bomb! Enemy attacks deal 0 damage for 2 turns.");
     }
 }
