@@ -130,9 +130,29 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void display(TurnSummary turnSummary) {
-		System.out.println("\nTurn Summary: " + turnSummary.toString());
+		// 1. Build the basic action string (Who did what to whom)
+		String actionStr = turnSummary.getAttackerName() + " \u2192 " + 
+						   turnSummary.getActionType() + " \u2192 " + 
+						   turnSummary.getTargetName();
+		
+		// 2. Add the results of the action based on what data the Engine provided
+		String resultStr = "";
+		if (turnSummary.getDamageDealt() > 0) {
+			resultStr += " (Damage: " + turnSummary.getDamageDealt() + ")";
+		}
+		if (turnSummary.getHealAmount() > 0) {
+			resultStr += " (Healed: " + turnSummary.getHealAmount() + " HP)";
+		}
+		if (turnSummary.isTargetStunned()) {
+			resultStr += " [*STUNNED*]";
+		}
+		if (turnSummary.isTargetEliminated()) {
+			resultStr += " [*ELIMINATED*]";
+		}
+		
+		// 3. Print the final combined sentence
+		System.out.println("\nTurn Summary: " + actionStr + resultStr);
 	}
-
 	@Override
 	public void display(Wave wave) {
 		System.out.println("\nA new wave is approaching!");
