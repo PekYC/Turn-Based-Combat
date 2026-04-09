@@ -158,7 +158,7 @@ public class CLI_UI implements UserInterface {
 		}
 
 		System.out.println("All initial enemies eliminated \u2192 Backup Spawn triggered! " 
-				   + enemyInfo + " enter simultaneously"); 
+				   + enemyInfo + " enter simultaneously");
 	}
 
 	@Override
