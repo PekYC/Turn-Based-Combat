@@ -11,7 +11,7 @@ public class DefendEffect implements StatusEffect {
     @Override
     public void apply(Combatants target) {
         if (!applied) {
-            target.setDefending(true);
+            target.setDefending(turnsRemaining);
             applied = true;
         }
         turnsRemaining--;
@@ -19,7 +19,7 @@ public class DefendEffect implements StatusEffect {
 
     @Override
     public void remove(Combatants target) {
-        target.setDefending(false);
+        target.setDefending(0);
     }
 
     @Override
