@@ -130,32 +130,35 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void display(TurnSummary turnSummary) {
-		// 1. Build the basic action string (Who did what to whom)
-		String actionStr = turnSummary.getAttackerName() + " \u2192 " + 
-						   turnSummary.getActionType() + " \u2192 " + 
-						   turnSummary.getTargetName();
+		String output = String.format("%s → %s → %s: HP: %d → %d (dmg: %d-%d=%d)",
+			turnSummary.getAttackerName(),
+			turnSummary.getActionType(),
+			turnSummary.getTargetName(),
+			turnSummary.getInitialHP(),
+			turnSummary.getFinalHP(),
+			turnSummary.getRawDamage(),
+			turnSummary.getMitigatedAmount(),
+			turnSummary.getDamageDealt()
+		);
 		
-		// 2. Add the results of the action based on what data the Engine provided
-		String resultStr = "";
-		if (turnSummary.getDamageDealt() > 0) {
-			resultStr += " (Damage: " + turnSummary.getDamageDealt() + ")";
-		}
-		if (turnSummary.getHealAmount() > 0) {
-			resultStr += " (Healed: " + turnSummary.getHealAmount() + " HP)";
-		}
-		if (turnSummary.isTargetStunned()) {
-			resultStr += " [*STUNNED*]";
-		}
-		if (turnSummary.isTargetEliminated()) {
-			resultStr += " [*ELIMINATED*]";
-		}
-		
-		// 3. Print the final combined sentence
-		System.out.println("\nTurn Summary: " + actionStr + resultStr);
+		System.out.println("\nTurn Summary: " + output);
 	}
 	@Override
 	public void display(Wave wave) {
-		System.out.println("\nA new wave is approaching!");
+		List<Combatants> waveEnemies = wave.getEnemies();
+		StringBuilder enemyInfo = new StringBuilder();
+
+		for (int i = 0; i < waveEnemies.size(); i++) {
+			Combatants e = waveEnemies.get(i);
+			enemyInfo.append(e.getName()).append(" (HP: ").append(e.getHp()).append(")");
+			
+			if (i < waveEnemies.size() - 1) {
+				enemyInfo.append(" + ");
+			}
+		}
+
+		System.out.println("All initial enemies eliminated \u2192 Backup Spawn triggered! " 
+				   + enemyInfo + " enter simultaneously");
 	}
 
 	@Override
