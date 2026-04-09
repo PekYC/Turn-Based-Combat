@@ -7,6 +7,8 @@ import entity.Combatants;
 import entity.Wave;
 import entity.BattleState;
 import entity.TurnSummary;
+import entity.Warrior;
+import entity.Wizard;
 
 public class CLI_UI implements UserInterface {
 	
@@ -18,9 +20,9 @@ public class CLI_UI implements UserInterface {
 	
 	@Override
 	public void displayLoadingScreen() {
-		System.out.println("=====================================");
-		System.out.println("       TURN-BASED COMBAT ARENA            ");
-		System.out.println("=====================================");
+		System.out.println("=========================================");
+		System.out.println("      TURN-BASED COMBAT ARENA            ");
+		System.out.println("=========================================");
 		System.out.println("Loading game assets...");
 	}
 	
@@ -35,12 +37,19 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public int promptCharacterSelection() {
+	public Combatants promptCharacterSelection() {
 		System.out.println("\nSelect Character Class:");
 		System.out.println("1. Warrior");
 		System.out.println("2. Wizard");
 		System.out.print("Enter choice (1-2): ");
-		return scanner.nextInt();
+		
+		int choice = scanner.nextInt();
+		
+		if (choice == 1) {
+			return new Warrior(); 
+		} else {
+			return new Wizard();
+		}
 	}
 
 	@Override
@@ -88,12 +97,18 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void displayVictoryScreen(int remainingHp, int totalRounds) {
-		System.out.println("\nVICTORY! Enemies defeated in " + totalRounds + " rounds.");
+		System.out.println("\n=========================================");
+		System.out.println("VICTORY! All enemies defeated.");
+		System.out.println("Remaining HP: " + remainingHp + " | Rounds: " + totalRounds);
+		System.out.println("=========================================");
 	}
 
 	@Override
 	public void displayDefeatScreen(int enemiesRemaining, int totalRounds) {
-		System.out.println("\nDEFEAT... " + enemiesRemaining + " enemies were too strong.");
+		System.out.println("\n=========================================");
+		System.out.println("DEFEAT... You have fallen in battle.");
+		System.out.println("Enemies left: " + enemiesRemaining + " | Rounds: " + totalRounds);
+		System.out.println("=========================================");
 	}
 
 	@Override
@@ -103,7 +118,7 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void endOfBattleReport(BattleState gameState) {
-		System.out.println("\n--- Final Battle Report Generated ---");
+		System.out.println("\n[Battle Report] Ending game state recorded.");
 	}
 
 	@Override
@@ -113,28 +128,14 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void display(Wave wave) {
-		System.out.println("\nWave Incoming!");
+		System.out.println("\nA new wave is approaching!");
 	}
 
 	@Override
 	public void display(BattleState gamestate) {
-		System.out.println("\nRound updated in BattleState.");
+		System.out.println("\nCurrent round state updated.");
 	}
 	
-	// This is the main method that lets you run and test your UI!
-		public static void main(String[] args) {
-			
-			// 1. We create an instance of your UI
-			CLI_UI myGameUI = new CLI_UI();
-			
-			// 2. We call the starting screen methods one by one
-			myGameUI.displayLoadingScreen();
-			
-			// (We save the player's choices in variables just to test it)
-			int difficulty = myGameUI.promptDifficultySelection();
-			int characterClass = myGameUI.promptCharacterSelection();
-			myGameUI.promptItemSelection();
-			
-			System.out.println("\n[SYSTEM]: UI Test completed successfully!");
-		}
+	
+	
 }
