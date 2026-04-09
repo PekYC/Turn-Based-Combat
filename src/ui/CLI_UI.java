@@ -9,6 +9,10 @@ import entity.BattleState;
 import entity.TurnSummary;
 import entity.Warrior;
 import entity.Wizard;
+import entity.Item;
+import entity.Potion;
+import entity.PowerStone;
+import entity.SmokeBomb;
 
 public class CLI_UI implements UserInterface {
 	
@@ -53,8 +57,9 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public List<String> promptItemSelection() {
-		List<String> selectedItems = new ArrayList<>();
+	public List<Item> promptItemSelection() {
+		// FIXED: Now holds Item objects instead of Strings
+		List<Item> selectedItems = new ArrayList<>(); 
 		System.out.println("\nSelect 2 Starting Items (Duplicates allowed):");
 		System.out.println("1. Potion (Heals HP)");
 		System.out.println("2. Power Stone (Boosts next attack)");
@@ -63,9 +68,11 @@ public class CLI_UI implements UserInterface {
 		for (int i = 1; i <= 2; i++) {
 			System.out.print("Choose Item " + i + " (1-3): ");
 			int choice = scanner.nextInt();
-			if (choice == 1) selectedItems.add("Potion");
-			else if (choice == 2) selectedItems.add("Power Stone");
-			else if (choice == 3) selectedItems.add("Smoke Bomb");
+			
+			// FIXED: Creating the actual objects now
+			if (choice == 1) selectedItems.add(new Potion());
+			else if (choice == 2) selectedItems.add(new PowerStone());
+			else if (choice == 3) selectedItems.add(new SmokeBomb());
 		}
 		return selectedItems;
 	}
