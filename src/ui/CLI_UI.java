@@ -136,6 +136,5 @@ public class CLI_UI implements UserInterface {
 		System.out.println("\nCurrent round state updated.");
 	}
 	
-	
-	
+
 }
