@@ -7,6 +7,12 @@ import entity.Combatants;
 import entity.Wave;
 import entity.BattleState;
 import entity.TurnSummary;
+import entity.Warrior;
+import entity.Wizard;
+import entity.Item;
+import entity.Potion;
+import entity.PowerStone;
+import entity.SmokeBomb;
 
 public class CLI_UI implements UserInterface {
 	
@@ -18,9 +24,9 @@ public class CLI_UI implements UserInterface {
 	
 	@Override
 	public void displayLoadingScreen() {
-		System.out.println("=====================================");
-		System.out.println("       TURN-BASED COMBAT ARENA            ");
-		System.out.println("=====================================");
+		System.out.println("=========================================");
+		System.out.println("      TURN-BASED COMBAT ARENA            ");
+		System.out.println("=========================================");
 		System.out.println("Loading game assets...");
 	}
 	
@@ -35,17 +41,25 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public int promptCharacterSelection() {
+	public Combatants promptCharacterSelection() {
 		System.out.println("\nSelect Character Class:");
 		System.out.println("1. Warrior");
 		System.out.println("2. Wizard");
 		System.out.print("Enter choice (1-2): ");
-		return scanner.nextInt();
+		
+		int choice = scanner.nextInt();
+		
+		if (choice == 1) {
+			return new Warrior(); 
+		} else {
+			return new Wizard();
+		}
 	}
 
 	@Override
-	public List<String> promptItemSelection() {
-		List<String> selectedItems = new ArrayList<>();
+	public List<Item> promptItemSelection() {
+		// FIXED: Now holds Item objects instead of Strings
+		List<Item> selectedItems = new ArrayList<>(); 
 		System.out.println("\nSelect 2 Starting Items (Duplicates allowed):");
 		System.out.println("1. Potion (Heals HP)");
 		System.out.println("2. Power Stone (Boosts next attack)");
@@ -54,9 +68,11 @@ public class CLI_UI implements UserInterface {
 		for (int i = 1; i <= 2; i++) {
 			System.out.print("Choose Item " + i + " (1-3): ");
 			int choice = scanner.nextInt();
-			if (choice == 1) selectedItems.add("Potion");
-			else if (choice == 2) selectedItems.add("Power Stone");
-			else if (choice == 3) selectedItems.add("Smoke Bomb");
+			
+			// FIXED: Creating the actual objects now
+			if (choice == 1) selectedItems.add(new Potion());
+			else if (choice == 2) selectedItems.add(new PowerStone());
+			else if (choice == 3) selectedItems.add(new SmokeBomb());
 		}
 		return selectedItems;
 	}
@@ -88,12 +104,18 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void displayVictoryScreen(int remainingHp, int totalRounds) {
-		System.out.println("\nVICTORY! Enemies defeated in " + totalRounds + " rounds.");
+		System.out.println("\n=========================================");
+		System.out.println("VICTORY! All enemies defeated.");
+		System.out.println("Remaining HP: " + remainingHp + " | Rounds: " + totalRounds);
+		System.out.println("=========================================");
 	}
 
 	@Override
 	public void displayDefeatScreen(int enemiesRemaining, int totalRounds) {
-		System.out.println("\nDEFEAT... " + enemiesRemaining + " enemies were too strong.");
+		System.out.println("\n=========================================");
+		System.out.println("DEFEAT... You have fallen in battle.");
+		System.out.println("Enemies left: " + enemiesRemaining + " | Rounds: " + totalRounds);
+		System.out.println("=========================================");
 	}
 
 	@Override
@@ -103,21 +125,46 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void endOfBattleReport(BattleState gameState) {
-		System.out.println("\n--- Final Battle Report Generated ---");
+		System.out.println("\n[Battle Report] Ending game state recorded.");
 	}
 
 	@Override
 	public void display(TurnSummary turnSummary) {
-		System.out.println("\nTurn Summary: " + turnSummary.toString());
+		String output = String.format("%s → %s → %s: HP: %d → %d (dmg: %d-%d=%d)",
+			turnSummary.getAttackerName(),
+			turnSummary.getActionType(),
+			turnSummary.getTargetName(),
+			turnSummary.getInitialHP(),
+			turnSummary.getFinalHP(),
+			turnSummary.getRawDamage(),
+			turnSummary.getMitigatedAmount(),
+			turnSummary.getDamageDealt()
+		);
+		
+		System.out.println("\nTurn Summary: " + output);
 	}
-
 	@Override
 	public void display(Wave wave) {
-		System.out.println("\nWave Incoming!");
+		List<Combatants> waveEnemies = wave.getEnemies();
+		StringBuilder enemyInfo = new StringBuilder();
+
+		for (int i = 0; i < waveEnemies.size(); i++) {
+			Combatants e = waveEnemies.get(i);
+			enemyInfo.append(e.getName()).append(" (HP: ").append(e.getHp()).append(")");
+			
+			if (i < waveEnemies.size() - 1) {
+				enemyInfo.append(" + ");
+			}
+		}
+
+		System.out.println("All initial enemies eliminated \u2192 Backup Spawn triggered! " 
+				   + enemyInfo + " enter simultaneously"); 
 	}
 
 	@Override
 	public void display(BattleState gamestate) {
-		System.out.println("\nRound updated in BattleState.");
+		System.out.println("\nCurrent round state updated.");
 	}
+	
+
 }

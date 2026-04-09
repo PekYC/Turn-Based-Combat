@@ -1,10 +1,12 @@
 package boundary;
 
 import java.util.List;
-import entity.Combatants;
-import entity.Wave;
+
 import entity.BattleState;
+import entity.Combatants;
+import entity.Item;
 import entity.TurnSummary;
+import entity.Wave;
 
 public interface UserInterface {
 	
@@ -12,9 +14,9 @@ public interface UserInterface {
 	
 	int promptDifficultySelection();
 	
-	int promptCharacterSelection();
+	Combatants promptCharacterSelection();
 	
-	List<String> promptItemSelection();
+	List<Item> promptItemSelection();
 	
 	void displayBattleState(Combatants player, List <Combatants> enemies, int roundNumber);
 	
