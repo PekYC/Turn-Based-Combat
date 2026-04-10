@@ -2,7 +2,7 @@ package entity;
 
 import control.EndTurnHandler;
 
-public abstract class StatusEffect implements EndTurnHandler<Void> {
+public abstract class StatusEffect implements EndTurnHandler {
 	private int turnsRemaining;
 	private String name;
 	private String description;
@@ -13,9 +13,8 @@ public abstract class StatusEffect implements EndTurnHandler<Void> {
 		this.description = desc;
 	}
 	
-	public Void endTurn() {
+	public void endTurn() {
 		turnsRemaining--;
-		return null;
 	}
     
     public boolean isExpired() {

@@ -2,7 +2,8 @@ package control;
 
 import entity.BattleState;
 import entity.Combatant;
+import entity.TurnSummary;
 
 public interface ActionDecider {
-	void decide(Combatant self, BattleState state);
+	TurnSummary decide(Combatant self, BattleState state);
 }

@@ -7,7 +7,7 @@ import control.ActionDecider;
 import control.EndTurnHandler;
 import entity.actions.Action;
 
-public abstract class Combatant implements EndTurnHandler<TurnSummary> {
+public abstract class Combatant implements EndTurnHandler {
     protected String name;
     protected int hp, maxHp, attack, defense, speed;
     protected ActionDecider decider;
@@ -16,8 +16,6 @@ public abstract class Combatant implements EndTurnHandler<TurnSummary> {
     protected int defendDuration = 0; 
     protected int smokeBombDuration = 0; 
     protected List<StatusEffect> statusEffects = new ArrayList<>();
-    
-    protected TurnSummary lastTurnSummary = new TurnSummary();
 
     protected Action selectedAction;
     protected List<Combatant> selectedTargets;
@@ -54,13 +52,31 @@ public abstract class Combatant implements EndTurnHandler<TurnSummary> {
         return this.hp - oldHp; 
     }
 
-    public abstract void performTurn(BattleState state);
+    public TurnSummary performTurn(BattleState state) {
+        if (isStunned()) {
+        	return new TurnSummary(
+                this.name,
+                this.name,
+                ActionType.STUNNED_SKIP,
+                0,
+                0,
+                false,
+                false,
+                false,
+                this.hp,
+                this.hp,
+                0,
+                0
+            );
+        }
+        
+        return decider.decide(this, state);
+    };
 
-    public TurnSummary endTurn() {
+    public void endTurn() {
     	for (StatusEffect s : statusEffects) {
     		s.endTurn();
     	}
-        return lastTurnSummary;
     }
 
 

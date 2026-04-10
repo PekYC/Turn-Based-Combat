@@ -6,7 +6,6 @@ import entity.BattleState;
 import entity.BattleStatus;
 import entity.Combatant;
 import entity.TurnSummary;
-import entity.actions.Action;
 
 public class BattleEngine {
     private final BattleState state;
@@ -37,8 +36,8 @@ public class BattleEngine {
             for (Combatant c : turnOrder) {
                 if (c.isAlive() && state.getStatus() == BattleStatus.CONTINUE) {
                     
-                    c.performTurn(state);
-                    TurnSummary summary = c.endTurn();
+                	TurnSummary summary = c.performTurn(state);
+                    c.endTurn();
                     ui.display(summary);
 
                     if (state.getStatus() != BattleStatus.CONTINUE) {

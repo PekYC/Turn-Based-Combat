@@ -1,5 +1,5 @@
 package control;
 
-public interface EndTurnHandler<T> {
-	T endTurn();
+public interface EndTurnHandler {
+	void endTurn();
 }

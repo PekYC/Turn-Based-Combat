@@ -6,31 +6,8 @@ public abstract class Enemy extends Combatant {
 	public Enemy(String name, int hp, int atk, int def, int spd, ActionDecider decider) {
 		super(name, hp, atk, def, spd, decider);
 	}
-	
-	@Override 
-	public void performTurn(BattleState state) {
-        if (isStunned()) {
-            this.lastTurnSummary = new TurnSummary(
-                this.name,
-                this.name,
-                ActionType.STUNNED_SKIP,
-                0,
-                0,
-                false,
-                false,
-                false,
-                this.hp,
-                this.hp,
-                0,
-                0
-            );
-            return;
-        }
-
-        decider.decide(this, state);
 
 //        if (this.selectedAction != null && this.selectedTargets != null) {
 //            this.lastTurnSummary = this.selectedAction.execute(this, this.selectedTargets);
 //        }
 	}
-}
