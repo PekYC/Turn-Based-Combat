@@ -1,12 +1,14 @@
 package entity;
 
 import java.util.List;
+
+import control.AutoDecider;
 import entity.actions.BasicAttack;
 
 public class Wolf extends Enemy {
 
     public Wolf(String id) {
-        super("Wolf " + id, 40, 45, 5, 35);
+        super("Wolf " + id, 40, 45, 5, 35, new AutoDecider());
     }
 
     @Override

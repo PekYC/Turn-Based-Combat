@@ -1,11 +1,14 @@
 package entity;
 
 import java.util.List;
+
+import control.ActionDecider;
 import entity.actions.Action;
 
 public abstract class Combatant {
     protected String name;
     protected int hp, maxHp, attack, defense, speed;
+    protected ActionDecider decider;
     
     protected int stunDuration = 0;   
     protected int defendDuration = 0; 
@@ -17,14 +20,17 @@ public abstract class Combatant {
     protected Action selectedAction;
     protected List<Combatant> selectedTargets;
 
-    public Combatant(String name, int hp, int attack, int defense, int speed) {
+    public Combatant(String name, int hp, int attack, int defense, int speed, ActionDecider decider) {
         this.name = name;
         this.maxHp = hp;
         this.hp = hp;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
+        this.decider = decider;
     }
+    
+    
     public int receiveDamage(int rawAtk) {
         if (smokeBombDuration > 0) {
             return 0; 

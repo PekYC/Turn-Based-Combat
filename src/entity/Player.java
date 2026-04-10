@@ -2,12 +2,13 @@ package entity;
 
 import java.util.List;
 
-import control.ActionDecider;
+import control.CLIDecider;
 import entity.actions.BasicAttack;
 
-public abstract class Enemy extends Combatant {
-	public Enemy(String name, int hp, int atk, int def, int spd, ActionDecider decider) {
-		super(name, hp, atk, def, spd, decider);
+public abstract class Player extends Combatant {
+
+	public Player(String name, int hp, int attack, int defense, int speed) {
+		super(name, hp, attack, defense, speed, new CLIDecider());
 	}
 	
 	@Override 
@@ -37,4 +38,5 @@ public abstract class Enemy extends Combatant {
             this.lastTurnSummary = this.selectedAction.execute(this, this.selectedTargets);
         }
 	}
+
 }
