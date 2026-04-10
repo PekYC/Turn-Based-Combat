@@ -10,6 +10,7 @@ import entity.TurnSummary;
 import entity.Warrior;
 import entity.Wizard;
 import entity.Item;
+import entity.Player;
 import entity.Potion;
 import entity.PowerStone;
 import entity.SmokeBomb;
@@ -47,7 +48,7 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public Combatant promptCharacterSelection() {
+	public Player promptCharacterSelection() {
 		System.out.println("\nSelect Character Class:");
 		System.out.println("1. Warrior");
 		System.out.println("2. Wizard");

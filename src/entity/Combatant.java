@@ -3,9 +3,10 @@ package entity;
 import java.util.List;
 
 import control.ActionDecider;
+import control.EndTurnHandler;
 import entity.actions.Action;
 
-public abstract class Combatant {
+public abstract class Combatant implements EndTurnHandler<TurnSummary> {
     protected String name;
     protected int hp, maxHp, attack, defense, speed;
     protected ActionDecider decider;
