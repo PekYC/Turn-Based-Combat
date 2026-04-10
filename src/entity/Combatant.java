@@ -14,6 +14,7 @@ public abstract class Combatant {
     protected int defendDuration = 0; 
     protected int specialCooldown = 0; 
     protected int smokeBombDuration = 0; 
+    protected List<StatusEffect> statusEffects;
     
     protected TurnSummary lastTurnSummary = new TurnSummary();
 

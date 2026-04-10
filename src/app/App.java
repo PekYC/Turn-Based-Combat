@@ -1,13 +1,11 @@
 package app;
 
-import java.util.List;
 import boundary.UserInterface;
 import boundary.CLI_UI;
 import control.BattleEngine;
 import control.SpeedStrategy;
 import entity.BattleState;
-import entity.Combatant;
-import entity.Item;
+import entity.Player;
 import entity.levels.Level;
 import entity.levels.Easy;
 import entity.levels.Medium;
@@ -28,13 +26,13 @@ public class App {
         };
 
         // Character: CLI_UI returns the Combatant object directly
-        Combatant characterClass = ui.promptCharacterSelection();
+        Player characterClass = ui.promptCharacterSelection();
 
         // Items: CLI_UI returns List<Item> directly
-        List<Item> selectedItems = ui.promptItemSelection();
+        characterClass.giveItems(ui.promptItemSelection());
 
         // 2. Initialize the Game State (Entity)
-        BattleState state = new BattleState(difficulty, characterClass, selectedItems);
+        BattleState state = new BattleState(difficulty, characterClass);
 
         // 3. Initialize the Engine (Control)
         BattleEngine engine = new BattleEngine(state, ui, new SpeedStrategy());

@@ -4,6 +4,7 @@ import java.util.List;
 import entity.BattleState;
 import entity.Combatant;
 import entity.Item;
+import entity.Player;
 import entity.TurnSummary;
 import entity.Wave;
 import entity.actions.Action;
@@ -14,7 +15,7 @@ public interface UserInterface {
     
     int promptDifficultySelection();
     
-    Combatant promptCharacterSelection();
+    Player promptCharacterSelection();
     
     List<Item> promptItemSelection();
     
