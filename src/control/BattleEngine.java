@@ -4,7 +4,7 @@ import java.util.List;
 import boundary.UserInterface;
 import entity.BattleState;
 import entity.BattleStatus;
-import entity.Combatants;
+import entity.Combatant;
 import entity.TurnSummary;
 import entity.actions.Action;
 
@@ -23,6 +23,14 @@ public class BattleEngine {
         state.incrementRound();
         ui.display(state);
     }
+    
+    private void handleInputIfPlayer(Combatant c) {
+        if (c == state.getPlayer() && !c.isStunned()) {
+            Action action = ui.promptAction(c, state);
+            List<Combatant> targets = ui.promptTargets(action, c, state);
+            c.setTurnData(action, targets);
+        }
+    }
 
     public void run() {
         while (state.getStatus() == BattleStatus.CONTINUE || state.getStatus() == BattleStatus.WAVE_CLEARED) {
@@ -32,9 +40,9 @@ public class BattleEngine {
                 ui.display(state.getActiveWave());
             }
 
-            List<Combatants> turnOrder = orderStrategy.calculateTurnOrder(state.getAllCombatants());
+            List<Combatant> turnOrder = orderStrategy.calculateTurnOrder(state.getAllCombatants());
 
-            for (Combatants c : turnOrder) {
+            for (Combatant c : turnOrder) {
                 if (c.isAlive() && state.getStatus() == BattleStatus.CONTINUE) {
                     
                     handleInputIfPlayer(c);
@@ -55,13 +63,5 @@ public class BattleEngine {
         }
 
         ui.endOfBattleReport(state);
-    }
-
-    private void handleInputIfPlayer(Combatants c) {
-        if (c == state.getPlayer() && !c.isStunned()) {
-            Action action = ui.promptAction(c, state);
-            List<Combatants> targets = ui.promptTargets(action, c, state);
-            c.setTurnData(action, targets);
-        }
     }
 }

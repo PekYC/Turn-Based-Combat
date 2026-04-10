@@ -3,7 +3,7 @@ package entity;
 import java.util.List;
 import entity.actions.Action;
 
-public abstract class Combatants {
+public abstract class Combatant {
     protected String name;
     protected int hp, maxHp, attack, defense, speed;
     
@@ -15,9 +15,9 @@ public abstract class Combatants {
     protected TurnSummary lastTurnSummary = new TurnSummary();
 
     protected Action selectedAction;
-    protected List<Combatants> selectedTargets;
+    protected List<Combatant> selectedTargets;
 
-    public Combatants(String name, int hp, int attack, int defense, int speed) {
+    public Combatant(String name, int hp, int attack, int defense, int speed) {
         this.name = name;
         this.maxHp = hp;
         this.hp = hp;
@@ -61,7 +61,7 @@ public abstract class Combatants {
     }
 
 
-    public void setTurnData(Action action, List<Combatants> targets) {
+    public void setTurnData(Action action, List<Combatant> targets) {
         this.selectedAction = action;
         this.selectedTargets = targets;
     }

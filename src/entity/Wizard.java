@@ -2,7 +2,7 @@ package entity;
 
 
 
-public class Wizard extends Combatants {
+public class Wizard extends Combatant {
 
     public Wizard() {
         super("Wizard", 200, 50, 10, 20);

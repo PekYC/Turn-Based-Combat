@@ -1,9 +1,9 @@
 package entity.actions;
 
-import entity.Combatants;
+import entity.Combatant;
 import entity.TurnSummary;
 import java.util.List;
 
 public interface Action {
-	TurnSummary execute(Combatants user, List<Combatants> targets);
+	TurnSummary execute(Combatant user, List<Combatant> targets);
 }

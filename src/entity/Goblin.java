@@ -3,7 +3,7 @@ package entity;
 import java.util.List;
 import entity.actions.BasicAttack;
 
-public class Goblin extends Combatants {
+public class Goblin extends Enemy {
 
     public Goblin(String id) {
         super("Goblin " + id, 60, 30, 10, 25);

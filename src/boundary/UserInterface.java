@@ -2,7 +2,7 @@ package boundary;
 
 import java.util.List;
 import entity.BattleState;
-import entity.Combatants;
+import entity.Combatant;
 import entity.Item;
 import entity.TurnSummary;
 import entity.Wave;
@@ -14,13 +14,13 @@ public interface UserInterface {
     
     int promptDifficultySelection();
     
-    Combatants promptCharacterSelection();
+    Combatant promptCharacterSelection();
     
     List<Item> promptItemSelection();
     
-    Action promptAction(Combatants player, BattleState state);
+    Action promptAction(Combatant player, BattleState state);
     
-    List<Combatants> promptTargets(Action action, Combatants player, BattleState state);
+    List<Combatant> promptTargets(Action action, Combatant player, BattleState state);
     
     void display(BattleState state);
     

@@ -3,7 +3,7 @@ package boundary;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
-import entity.Combatants;
+import entity.Combatant;
 import entity.Wave;
 import entity.BattleState;
 import entity.TurnSummary;
@@ -47,7 +47,7 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public Combatants promptCharacterSelection() {
+	public Combatant promptCharacterSelection() {
 		System.out.println("\nSelect Character Class:");
 		System.out.println("1. Warrior");
 		System.out.println("2. Wizard");
@@ -84,7 +84,7 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public Action promptAction(Combatants player, BattleState state) {
+	public Action promptAction(Combatant player, BattleState state) {
 		System.out.println("\n--- PLAYER TURN: " + player.getName() + " ---");
 		System.out.println("HP: " + player.getHp() + "/" + player.getMaxHp() + " | CD: " + player.getSpecialCooldown());
 		System.out.println("Choose Action:");
@@ -102,15 +102,15 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public List<Combatants> promptTargets(Action action, Combatants player, BattleState state) {
+	public List<Combatant> promptTargets(Action action, Combatant player, BattleState state) {
 		if (action instanceof DefendSkill) {
 			return List.of(player);
 		}
 
-		List<Combatants> enemies = state.getActiveEnemies();
+		List<Combatant> enemies = state.getActiveEnemies();
 		System.out.println("\nSelect Target:");
 		for (int i = 0; i < enemies.size(); i++) {
-			Combatants e = enemies.get(i);
+			Combatant e = enemies.get(i);
 			if (e.isAlive()) {
 				System.out.println((i + 1) + ". " + e.getName() + " (HP: " + e.getHp() + ")");
 			}
@@ -158,11 +158,11 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void display(Wave wave) {
-		List<Combatants> waveEnemies = wave.getEnemies();
+		List<Combatant> waveEnemies = wave.getEnemies();
 		StringBuilder enemyInfo = new StringBuilder();
 
 		for (int i = 0; i < waveEnemies.size(); i++) {
-			Combatants e = waveEnemies.get(i);
+			Combatant e = waveEnemies.get(i);
 			enemyInfo.append(e.getName()).append(" (HP: ").append(e.getHp()).append(")");
 			
 			if (i < waveEnemies.size() - 1) {

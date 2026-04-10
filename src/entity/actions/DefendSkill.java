@@ -1,14 +1,14 @@
 package entity.actions;
 
 
-import entity.Combatants;
+import entity.Combatant;
 import entity.TurnSummary;
 import entity.ActionType;
 import java.util.List;
 
 public class DefendSkill implements Action {
     @Override
-    public TurnSummary execute(Combatants user, List<Combatants> targets) {
+    public TurnSummary execute(Combatant user, List<Combatant> targets) {
         user.setDefending(2);
         
         return new TurnSummary(

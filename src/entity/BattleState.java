@@ -11,10 +11,10 @@ public class BattleState {
     private Level level;
     private Queue<Wave> waveQueue;
     private Wave activeWave;
-    private Combatants player;
+    private Combatant player;
     private List<Item> items;
     
-    public BattleState(Level l, Combatants player, List<Item> items) {
+    public BattleState(Level l, Combatant player, List<Item> items) {
         this.level = l;
         this.waveQueue = new LinkedList<>(level.getWaves());
         this.activeWave = waveQueue.poll();
@@ -48,8 +48,8 @@ public class BattleState {
         }
     }
 
-    public List<Combatants> getAllCombatants() {
-        List<Combatants> all = new ArrayList<>();
+    public List<Combatant> getAllCombatants() {
+        List<Combatant> all = new ArrayList<>();
         if (player.isAlive()) {
             all.add(player);
         }
@@ -57,7 +57,7 @@ public class BattleState {
         return all;
     }
          
-    public Combatants getPlayer() {
+    public Combatant getPlayer() {
         return player;
     }
     
@@ -65,7 +65,7 @@ public class BattleState {
         return activeWave;
     }
     
-    public List<Combatants> getActiveEnemies() {
+    public List<Combatant> getActiveEnemies() {
         if (activeWave == null) {
             return new ArrayList<>();
         }

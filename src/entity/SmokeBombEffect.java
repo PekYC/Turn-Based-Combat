@@ -8,12 +8,12 @@ public class SmokeBombEffect implements StatusEffect {
     public String getName() { return "SmokeBomb"; }
 
     @Override
-    public void apply(Combatants target) {
+    public void apply(Combatant target) {
         turnsRemaining--;
     }
 
     @Override
-    public void remove(Combatants target) {
+    public void remove(Combatant target) {
         target.setSmokeBombDuration(0);
     }
 

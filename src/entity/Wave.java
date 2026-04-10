@@ -3,14 +3,14 @@ package entity;
 import java.util.List;
 
 public class Wave {
-	private List<Combatants> enemies;
+	private List<Combatant> enemies;
 
-	public Wave(List<Combatants> enemies) {
+	public Wave(List<Combatant> enemies) {
 		this.enemies = enemies;
 	}
 	
 	public boolean isDefeated() {
-		for (Combatants c : enemies) {
+		for (Combatant c : enemies) {
 			if (c.isAlive()) {
 				return false;
 			}
@@ -18,7 +18,7 @@ public class Wave {
 		return true;
 	}
 	
-	public List<Combatants> getEnemies() {
+	public List<Combatant> getEnemies() {
 		return enemies;
 	}
 }

@@ -1,14 +1,14 @@
 package entity.actions;
 
-import entity.Combatants;
+import entity.Combatant;
 import entity.TurnSummary;
 import entity.ActionType;
 import java.util.List;
 
 public class ArcaneBlastAction implements Action {
     @Override
-    public TurnSummary execute(Combatants user, List<Combatants> targets) {
-        Combatants target = targets.get(0);
+    public TurnSummary execute(Combatant user, List<Combatant> targets) {
+        Combatant target = targets.get(0);
         int initialHP = target.getHp();
         int rawDamage = user.getAttack() + 20;
         int damageDealt = target.receiveDamage(rawDamage);

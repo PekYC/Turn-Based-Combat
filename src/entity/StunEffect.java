@@ -8,13 +8,13 @@ public class StunEffect implements StatusEffect {
     public String getName() { return "Stun"; }
 
     @Override
-    public void apply(Combatants target) {
+    public void apply(Combatant target) {
         target.setStunned(turnsRemaining);
         turnsRemaining--;
     }
 
     @Override
-    public void remove(Combatants target) {
+    public void remove(Combatant target) {
         target.setStunned(0);
     }
 

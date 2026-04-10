@@ -2,8 +2,8 @@ package entity;
 
 public interface StatusEffect {
     String getName();
-    void apply(Combatants target);
-    void remove(Combatants target);
+    void apply(Combatant target);
+    void remove(Combatant target);
     boolean isExpired();
     String getDescription();
 }

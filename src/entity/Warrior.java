@@ -1,7 +1,7 @@
 package entity;
 
 
-public class Warrior extends Combatants {
+public class Warrior extends Combatant {
 
     public Warrior() {
         super("Warrior", 260, 40, 20, 30);

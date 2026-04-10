@@ -6,7 +6,7 @@ import boundary.CLI_UI;
 import control.BattleEngine;
 import control.SpeedStrategy;
 import entity.BattleState;
-import entity.Combatants;
+import entity.Combatant;
 import entity.Item;
 import entity.levels.Level;
 import entity.levels.Easy;
@@ -28,7 +28,7 @@ public class App {
         };
 
         // Character: CLI_UI returns the Combatant object directly
-        Combatants characterClass = ui.promptCharacterSelection();
+        Combatant characterClass = ui.promptCharacterSelection();
 
         // Items: CLI_UI returns List<Item> directly
         List<Item> selectedItems = ui.promptItemSelection();
