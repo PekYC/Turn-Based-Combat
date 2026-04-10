@@ -9,7 +9,7 @@ public class Potion implements Item {
     public String getDescription() { return "Restores 100 HP (capped at max HP)"; }
 
     @Override
-    public void use(Combatant user) {
+    public void use(Player user) {
         int before = user.getHp();
         user.receiveHealing(100);
         int healed = user.getHp() - before;

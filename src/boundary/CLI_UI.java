@@ -1,6 +1,9 @@
 package boundary;
 
 import java.util.Scanner;
+
+import control.CLIDecider;
+
 import java.util.List;
 import java.util.ArrayList;
 import entity.Combatant;
@@ -57,9 +60,9 @@ public class CLI_UI implements UserInterface {
 		int choice = scanner.nextInt();
 		
 		if (choice == 1) {
-			return new Warrior(); 
+			return new Warrior(new CLIDecider(this)); 
 		} else {
-			return new Wizard();
+			return new Wizard(new CLIDecider(this));
 		}
 	}
 
@@ -85,7 +88,7 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public Action promptAction(Combatant player, BattleState state) {
+	public Action promptAction(Player player, BattleState state) {
 		System.out.println("\n--- PLAYER TURN: " + player.getName() + " ---");
 		System.out.println("HP: " + player.getHp() + "/" + player.getMaxHp() + " | CD: " + player.getSpecialCooldown());
 		System.out.println("Choose Action:");
@@ -103,7 +106,7 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public List<Combatant> promptTargets(Action action, Combatant player, BattleState state) {
+	public List<Combatant> promptTargets(Action action, Player player, BattleState state) {
 		if (action instanceof DefendSkill) {
 			return List.of(player);
 		}

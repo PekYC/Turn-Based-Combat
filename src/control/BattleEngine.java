@@ -23,14 +23,6 @@ public class BattleEngine {
         state.incrementRound();
         ui.display(state);
     }
-    
-    private void handleInputIfPlayer(Combatant c) {
-        if (c == state.getPlayer() && !c.isStunned()) {
-            Action action = ui.promptAction(c, state);
-            List<Combatant> targets = ui.promptTargets(action, c, state);
-            c.setTurnData(action, targets);
-        }
-    }
 
     public void run() {
         while (state.getStatus() == BattleStatus.CONTINUE || state.getStatus() == BattleStatus.WAVE_CLEARED) {
@@ -44,8 +36,6 @@ public class BattleEngine {
 
             for (Combatant c : turnOrder) {
                 if (c.isAlive() && state.getStatus() == BattleStatus.CONTINUE) {
-                    
-                    handleInputIfPlayer(c);
                     
                     c.performTurn(state);
                     TurnSummary summary = c.endTurn();

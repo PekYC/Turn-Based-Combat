@@ -9,7 +9,7 @@ public class PowerStone implements Item {
     public String getDescription() { return "Free use of special skill (no cooldown change)"; }
 
     @Override
-    public void use(Combatant user) {
+    public void use(Player user) {
         System.out.println(user.getName() + " used Power Stone!");
         int savedCooldown = user.getSpecialCooldown();
         user.setSpecialCooldown(savedCooldown); // restore — Power Stone does not affect cooldown

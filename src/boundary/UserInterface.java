@@ -19,9 +19,9 @@ public interface UserInterface {
     
     List<Item> promptItemSelection();
     
-    Action promptAction(Combatant player, BattleState state);
+    Action promptAction(Player player, BattleState state);
     
-    List<Combatant> promptTargets(Action action, Combatant player, BattleState state);
+    List<Combatant> promptTargets(Action action, Player player, BattleState state);
     
     void display(BattleState state);
     

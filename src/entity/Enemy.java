@@ -1,9 +1,6 @@
 package entity;
 
-import java.util.List;
-
 import control.ActionDecider;
-import entity.actions.BasicAttack;
 
 public abstract class Enemy extends Combatant {
 	public Enemy(String name, int hp, int atk, int def, int spd, ActionDecider decider) {
@@ -30,11 +27,10 @@ public abstract class Enemy extends Combatant {
             return;
         }
 
-        this.selectedAction = new BasicAttack();
-        this.selectedTargets = List.of(state.getPlayer());
+        decider.decide(this, state);
 
-        if (this.selectedAction != null && this.selectedTargets != null) {
-            this.lastTurnSummary = this.selectedAction.execute(this, this.selectedTargets);
-        }
+//        if (this.selectedAction != null && this.selectedTargets != null) {
+//            this.lastTurnSummary = this.selectedAction.execute(this, this.selectedTargets);
+//        }
 	}
 }
