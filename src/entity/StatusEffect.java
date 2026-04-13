@@ -8,10 +8,13 @@ public abstract class StatusEffect implements EndTurnHandler {
 	private String description;
 	protected Combatant self;
 	
-	public StatusEffect(int turnsRemaining, String name, String desc, Combatant self) {
+	public StatusEffect(int turnsRemaining, String name, String desc) {
 		this.turnsRemaining = turnsRemaining;
 		this.name = name;
 		this.description = desc;
+	}
+	
+	public void setTarget(Combatant self) {
 		this.self = self;
 	}
 	

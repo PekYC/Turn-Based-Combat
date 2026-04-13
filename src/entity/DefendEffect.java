@@ -2,7 +2,7 @@ package entity;
 
 public class DefendEffect extends StatusEffect {
 	public DefendEffect(Combatant self) {
-		super(2, "Defend", "Defending, +10 DEF", self);
+		super(2, "Defend", "Defending, +10 DEF");
 	}
 	
 	public void onApply() {

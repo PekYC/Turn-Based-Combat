@@ -1,6 +1,7 @@
 package entity.actions;
 
 import entity.Combatant;
+import entity.StunEffect;
 import entity.TurnSummary;
 import entity.ActionType;
 import java.util.List;
@@ -20,7 +21,7 @@ public class ShieldBash extends Action {
         int finalHP = target.getHp();
         int mitigated = rawDamage - damageDealt;
         
-        target.setStunned(2);
+        target.applyStatus(new StunEffect());
 
         return new TurnSummary(
             user.getName(),

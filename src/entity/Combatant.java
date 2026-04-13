@@ -46,8 +46,10 @@ public abstract class Combatant implements EndTurnHandler {
     }
 
     public TurnSummary performTurn(BattleState state) {
-    	System.out.println(this.statusEffects);
-    	System.out.println(this.name + " attack: " + this.attack);
+    	for (StatusEffect s: this.statusEffects) {
+    		s.onStartTurn();
+    	}
+    	
     	
         if (isStunned()) {
         	return new TurnSummary(
@@ -94,6 +96,7 @@ public abstract class Combatant implements EndTurnHandler {
     public void changeDefense(int change) { this.defense += change; }
 	public void changeAttack(int change) { this.attack += change; }
     public void applyStatus(StatusEffect status) {
+    	status.setTarget(this);
     	this.statusEffects.add(status);
     	status.onApply();
     }

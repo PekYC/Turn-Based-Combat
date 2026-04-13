@@ -1,7 +1,7 @@
 package entity;
 
 public class StunEffect extends StatusEffect {
-    public StunEffect(Combatant self) {
-    	super(2, "Stun", "Stunned - cannot act (", self);
+    public StunEffect() {
+    	super(2, "Stun", "Stunned - cannot act (");
     }
 }

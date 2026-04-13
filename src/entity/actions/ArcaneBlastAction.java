@@ -33,7 +33,7 @@ public class ArcaneBlastAction extends Action {
 		}
 		
 	    for (int i = 0; i < number_killed; i++) {
-	    	user.applyStatus(new ArcaneBlastEffect(user));
+	    	user.applyStatus(new ArcaneBlastEffect());
 	    }
 		
 		
