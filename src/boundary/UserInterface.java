@@ -21,7 +21,7 @@ public interface UserInterface {
     
     Action promptAction(Player player, BattleState state);
     
-    List<Combatant> promptTargets(Action action, Player player, BattleState state);
+    List<Combatant> promptTargets(Action action, BattleState state);
     
     void display(BattleState state);
     

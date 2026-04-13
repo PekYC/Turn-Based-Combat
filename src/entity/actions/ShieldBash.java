@@ -5,8 +5,13 @@ import entity.TurnSummary;
 import entity.ActionType;
 import java.util.List;
 
-public class ShieldBash implements Action {
-    @Override
+public class ShieldBash extends Action {
+    public ShieldBash() {
+		super("Shield Bash", TargetType.SINGLE);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
     public TurnSummary execute(Combatant user, List<Combatant> targets) {
         Combatant target = targets.get(0);
         int initialHP = target.getHp();

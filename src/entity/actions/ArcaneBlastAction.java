@@ -5,8 +5,13 @@ import entity.TurnSummary;
 import entity.ActionType;
 import java.util.List;
 
-public class ArcaneBlastAction implements Action {
-    @Override
+public class ArcaneBlastAction extends Action {
+    public ArcaneBlastAction() {
+		super("Arcane Blast", TargetType.MULTI);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
     public TurnSummary execute(Combatant user, List<Combatant> targets) {
         Combatant target = targets.get(0);
         int initialHP = target.getHp();

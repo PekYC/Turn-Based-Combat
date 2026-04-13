@@ -8,6 +8,7 @@ import entity.Combatant;
 import entity.Player;
 import entity.TurnSummary;
 import entity.actions.Action;
+import entity.actions.TargetType;
 
 public class CLIDecider implements ActionDecider {
 	private UserInterface userInput;
@@ -21,13 +22,11 @@ public class CLIDecider implements ActionDecider {
 
 	    if (self instanceof Player player) {
 	    	Action action = userInput.promptAction(player, state);
-	    	List<Combatant> targets;
-//	    	if (action.targetable) {
-	    	if (true) {
-		        targets = userInput.promptTargets(action, player, state);
-	    	} else {
-	    		targets = state.getActiveEnemies();
-	    	}
+	    	List<Combatant> targets = switch(action.getTargeting()) {
+	    		case SINGLE -> userInput.promptTargets(action, state);
+	    		case MULTI -> state.getActiveEnemies();
+	    		case SELF -> List.of(self);
+	    	};
 	    	return action.execute(self, targets);
 	    	
 	    } else {

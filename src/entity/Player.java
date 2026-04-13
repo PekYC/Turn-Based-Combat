@@ -15,14 +15,6 @@ public abstract class Player extends Combatant {
 		this.items = new ArrayList<>();
 		
 	}
-        
-
-//        this.selectedAction = new BasicAttack();
-//        this.selectedTargets = List.of(state.getPlayer());
-//
-//        if (this.selectedAction != null && this.selectedTargets != null) {
-//            this.lastTurnSummary = this.selectedAction.execute(this, this.selectedTargets);
-//        }
 
 	
 	@Override

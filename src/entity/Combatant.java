@@ -2,6 +2,7 @@ package entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 import control.ActionDecider;
 import control.EndTurnHandler;
@@ -12,8 +13,7 @@ public abstract class Combatant implements EndTurnHandler {
     protected int hp, maxHp, attack, defense, speed;
     protected ActionDecider decider;
     
-    protected int stunDuration = 0;   
-    protected int defendDuration = 0; 
+    protected int stunDuration = 0;  
     protected int smokeBombDuration = 0; 
     protected List<StatusEffect> statusEffects = new ArrayList<>();
 
@@ -31,15 +31,12 @@ public abstract class Combatant implements EndTurnHandler {
     }
     
     
-    public int receiveDamage(int rawAtk) {
+    public int receiveDamage(int rawAtk) {    	
         if (smokeBombDuration > 0) {
             return 0; 
         }
         
         int currentDef = this.defense;
-        if (defendDuration > 0) {
-            currentDef += 10; 
-        }
 
         int damageTaken = Math.max(0, rawAtk - currentDef);
         this.hp = Math.max(0, this.hp - damageTaken); 
@@ -74,15 +71,16 @@ public abstract class Combatant implements EndTurnHandler {
     };
 
     public void endTurn() {
-    	for (StatusEffect s : statusEffects) {
+    	Iterator<StatusEffect> it = statusEffects.iterator();
+    	
+    	while(it.hasNext()) {
+    		StatusEffect s = it.next();
     		s.endTurn();
+    		
+    		if (s.isExpired()) {
+    			it.remove();
+    		}
     	}
-    }
-
-
-    public void setTurnData(Action action, List<Combatant> targets) {
-        this.selectedAction = action;
-        this.selectedTargets = targets;
     }
 
     public boolean isAlive() { return hp > 0; }
@@ -92,9 +90,14 @@ public abstract class Combatant implements EndTurnHandler {
     public int getAttack() { return attack; }
     public int getHp() { return hp; }
     public int getMaxHp() { return maxHp; }
-    
+    public int getDefense() { return defense; }
+
+    public void changeDefense(int change) { this.defense += change; }
+    public void applyStatus(StatusEffect status) {
+    	this.statusEffects.add(status);
+    	status.onApply();
+    }
     public void setStunned(int duration) { this.stunDuration = duration; }
-    public void setDefending(int duration) { this.defendDuration = duration; }
     public void setSmokeBombDuration(int duration) { this.smokeBombDuration = duration; }
     public void boostAttack(int amount) { this.attack += amount; }
 }

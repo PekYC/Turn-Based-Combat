@@ -106,11 +106,7 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public List<Combatant> promptTargets(Action action, Player player, BattleState state) {
-		if (action instanceof DefendSkill) {
-			return List.of(player);
-		}
-
+	public List<Combatant> promptTargets(Action action, BattleState state) {
 		List<Combatant> enemies = state.getActiveEnemies();
 		System.out.println("\nSelect Target:");
 		for (int i = 0; i < enemies.size(); i++) {

@@ -6,19 +6,32 @@ public abstract class StatusEffect implements EndTurnHandler {
 	private int turnsRemaining;
 	private String name;
 	private String description;
+	protected Combatant self;
 	
-	public StatusEffect(int turnsRemaining, String name, String desc) {
+	public StatusEffect(int turnsRemaining, String name, String desc, Combatant self) {
 		this.turnsRemaining = turnsRemaining;
 		this.name = name;
 		this.description = desc;
+		this.self = self;
+	}
+	
+	public void onApply() { }
+	
+	public void onAttacking() {	}
+	
+	public void onReceivingAttack() { }
+	
+	public void onExpire() { }
+	
+	public boolean isExpired() {
+		return turnsRemaining <= 0;
 	}
 	
 	public void endTurn() {
 		turnsRemaining--;
-	}
-    
-    public boolean isExpired() {
-		return turnsRemaining <= 0;
+		if (isExpired()) {
+			onExpire();
+		}
 	}
 
     public String getName() {
