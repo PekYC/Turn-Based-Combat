@@ -3,36 +3,54 @@ package entity.actions;
 import entity.Combatant;
 import entity.TurnSummary;
 import entity.ActionType;
+import entity.ArcaneBlastEffect;
+
 import java.util.List;
 
 public class ArcaneBlastAction extends Action {
     public ArcaneBlastAction() {
 		super("Arcane Blast", TargetType.MULTI);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
     public TurnSummary execute(Combatant user, List<Combatant> targets) {
-        Combatant target = targets.get(0);
-        int initialHP = target.getHp();
-        int rawDamage = user.getAttack() + 20;
-        int damageDealt = target.receiveDamage(rawDamage);
-        int finalHP = target.getHp();
-        int mitigated = rawDamage - damageDealt;
+		int number_killed = 0;
+		int damageDealt_temp = 0;
+		int initialHP_temp = 0;
+		int finalHP_temp = 0;
+		int rawDamage_temp = 0;
+		int mitigated_temp = 0;
+		
+		for (Combatant c: targets) {
+	        int initialHP = c.getHp();
+	        int rawDamage = user.getAttack();
+	        int damageDealt = c.receiveDamage(rawDamage);
+	        int finalHP = c.getHp();
+	        int mitigated = rawDamage - damageDealt;
+	        if (!c.isAlive()) {
+	        	number_killed++;
+	        }   
+		}
+		
+	    for (int i = 0; i < number_killed; i++) {
+	    	user.applyStatus(new ArcaneBlastEffect(user));
+	    }
+		
+		
 
         return new TurnSummary(
             user.getName(),
-            target.getName(),
+            targets.get(0).getName(),
             ActionType.ARCANE_BLAST,
-            damageDealt,
+            damageDealt_temp,
             0,
             false,
-            !target.isAlive(),
+            !targets.get(0).isAlive(),
             false,
-            initialHP,
-            finalHP,
-            rawDamage,
-            mitigated
+            initialHP_temp,
+            finalHP_temp,
+            rawDamage_temp,
+            mitigated_temp
         );
     }
 }

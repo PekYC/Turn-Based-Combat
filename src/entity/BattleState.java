@@ -67,7 +67,7 @@ public class BattleState {
         if (activeWave == null) {
             return new ArrayList<>();
         }
-        return activeWave.getEnemies();
+        return activeWave.getEnemies(true);
     }
 
     public int getRoundCount() {

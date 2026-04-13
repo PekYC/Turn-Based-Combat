@@ -158,7 +158,7 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void display(Wave wave) {
-		List<Combatant> waveEnemies = wave.getEnemies();
+		List<Combatant> waveEnemies = wave.getEnemies(false);
 		StringBuilder enemyInfo = new StringBuilder();
 
 		for (int i = 0; i < waveEnemies.size(); i++) {

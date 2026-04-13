@@ -8,7 +8,6 @@ import entity.Combatant;
 import entity.Player;
 import entity.TurnSummary;
 import entity.actions.Action;
-import entity.actions.TargetType;
 
 public class CLIDecider implements ActionDecider {
 	private UserInterface userInput;

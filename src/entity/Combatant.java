@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import control.ActionDecider;
 import control.EndTurnHandler;
-import entity.actions.Action;
 
 public abstract class Combatant implements EndTurnHandler {
     protected String name;
@@ -16,9 +15,6 @@ public abstract class Combatant implements EndTurnHandler {
     protected int stunDuration = 0;  
     protected int smokeBombDuration = 0; 
     protected List<StatusEffect> statusEffects = new ArrayList<>();
-
-    protected Action selectedAction;
-    protected List<Combatant> selectedTargets;
 
     public Combatant(String name, int hp, int attack, int defense, int speed, ActionDecider decider) {
         this.name = name;
@@ -50,6 +46,9 @@ public abstract class Combatant implements EndTurnHandler {
     }
 
     public TurnSummary performTurn(BattleState state) {
+    	System.out.println(this.statusEffects);
+    	System.out.println(this.name + " attack: " + this.attack);
+    	
         if (isStunned()) {
         	return new TurnSummary(
                 this.name,
@@ -93,6 +92,7 @@ public abstract class Combatant implements EndTurnHandler {
     public int getDefense() { return defense; }
 
     public void changeDefense(int change) { this.defense += change; }
+	public void changeAttack(int change) { this.attack += change; }
     public void applyStatus(StatusEffect status) {
     	this.statusEffects.add(status);
     	status.onApply();
@@ -100,5 +100,7 @@ public abstract class Combatant implements EndTurnHandler {
     public void setStunned(int duration) { this.stunDuration = duration; }
     public void setSmokeBombDuration(int duration) { this.smokeBombDuration = duration; }
     public void boostAttack(int amount) { this.attack += amount; }
+
+
 }
 
