@@ -1,6 +1,7 @@
 package entity;
 
 import control.EndTurnHandler;
+import entity.actions.Action;
 
 public abstract class StatusEffect implements EndTurnHandler {
 	private int turnsRemaining;
@@ -16,6 +17,10 @@ public abstract class StatusEffect implements EndTurnHandler {
 	
 	public void setTarget(Combatant self) {
 		this.self = self;
+	}
+	
+	public Action onStartTurn() {
+		return null; 
 	}
 	
 	public void onApply() { }

@@ -15,7 +15,7 @@ public class DefendSkill extends Action {
 
 	@Override
     public TurnSummary execute(Combatant user, List<Combatant> targets) {
-        user.applyStatus(new DefendEffect(user));
+        user.applyStatus(new DefendEffect());
         
         return new TurnSummary(
             user.getName(),

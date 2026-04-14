@@ -1,7 +1,7 @@
 package entity;
 
 public class DefendEffect extends StatusEffect {
-	public DefendEffect(Combatant self) {
+	public DefendEffect() {
 		super(2, "Defend", "Defending, +10 DEF");
 	}
 	

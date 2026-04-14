@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import control.ActionDecider;
 import control.EndTurnHandler;
+import entity.actions.Action;
 
 public abstract class Combatant implements EndTurnHandler {
     protected String name;
@@ -47,26 +48,11 @@ public abstract class Combatant implements EndTurnHandler {
 
     public TurnSummary performTurn(BattleState state) {
     	for (StatusEffect s: this.statusEffects) {
-    		s.onStartTurn();
+    		Action override = s.onStartTurn();
+    		if (override != null) {
+    			return override.execute(this, List.of(this));
+    		}
     	}
-    	
-    	
-        if (isStunned()) {
-        	return new TurnSummary(
-                this.name,
-                this.name,
-                ActionType.STUNNED_SKIP,
-                0,
-                0,
-                false,
-                false,
-                false,
-                this.hp,
-                this.hp,
-                0,
-                0
-            );
-        }
         
         return decider.decide(this, state);
     };
