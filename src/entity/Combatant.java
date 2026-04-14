@@ -7,6 +7,7 @@ import java.util.Iterator;
 import control.ActionDecider;
 import control.EndTurnHandler;
 import entity.actions.Action;
+import entity.effects.StatusEffect;
 
 public abstract class Combatant implements EndTurnHandler {
     protected String name;

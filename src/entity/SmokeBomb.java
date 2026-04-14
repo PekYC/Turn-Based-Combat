@@ -1,5 +1,7 @@
 package entity;
 
+import entity.effects.SmokeBombEffect;
+
 public class SmokeBomb implements Item {
 
     @Override

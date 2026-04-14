@@ -1,4 +1,4 @@
-package entity;
+package entity.effects;
 
 import entity.actions.Action;
 import entity.actions.SkipAction;

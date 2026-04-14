@@ -1,8 +1,8 @@
 package entity.actions;
 
 import entity.Combatant;
-import entity.StunEffect;
 import entity.TurnSummary;
+import entity.effects.StunEffect;
 import entity.ActionType;
 import java.util.List;
 

@@ -2,8 +2,8 @@ package entity.actions;
 
 
 import entity.Combatant;
-import entity.DefendEffect;
 import entity.TurnSummary;
+import entity.effects.DefendEffect;
 import entity.ActionType;
 import java.util.List;
 

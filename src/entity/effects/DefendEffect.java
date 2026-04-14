@@ -1,4 +1,4 @@
-package entity;
+package entity.effects;
 
 public class DefendEffect extends StatusEffect {
 	public DefendEffect() {

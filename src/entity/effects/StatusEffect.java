@@ -1,6 +1,7 @@
-package entity;
+package entity.effects;
 
 import control.EndTurnHandler;
+import entity.Combatant;
 import entity.actions.Action;
 
 public abstract class StatusEffect implements EndTurnHandler {

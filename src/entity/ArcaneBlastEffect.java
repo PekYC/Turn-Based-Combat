@@ -1,5 +1,7 @@
 package entity;
 
+import entity.effects.StatusEffect;
+
 public class ArcaneBlastEffect extends StatusEffect {
 
 	public ArcaneBlastEffect() {
