@@ -1,23 +1,11 @@
 package entity;
 
-public class Warrior extends Combatants {
+import control.ActionDecider;
+import entity.actions.ShieldBash;
 
-	public Warrior() {
-        // HP: 260, Attack: 40, Defense: 20, Speed: 30
-        super("Warrior", 260, 40, 20, 30);
-    }
+public class Warrior extends Player {
 
-    @Override
-    public void performTurn(BattleState state) {
-        if (isStunned()) {
-        	this.lastTurnSummary = new TurnSummary(
-        		    this.name, 
-        		    this.name, 
-        		    ActionType.STUNNED_SKIP, 
-        		    0, 0, false, false, 
-        		    false 
-        	);
-            return;
-        }
+    public Warrior(ActionDecider decider) {
+        super("Warrior", 260, 40, 20, 30, decider, new ShieldBash());
     }
 }

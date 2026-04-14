@@ -1,25 +1,11 @@
 package entity;
 
-public class Wizard extends Combatants {
+import control.ActionDecider;
+import entity.actions.ArcaneBlastAction;
 
-    public Wizard() {
-        // HP: 200, Attack: 50, Defense: 10, Speed: 20
-        super("Wizard", 200, 50, 10, 20);
-    }
+public class Wizard extends Player {
 
-    @Override
-    public void performTurn(BattleState state) {
-      
-        if (isStunned()) {
-            this.lastTurnSummary = new TurnSummary(
-                this.name, 
-                this.name, 
-                ActionType.STUNNED_SKIP, 
-                0, 0, false, false, 
-                false 
-            );
-            return;
-        }
-
+    public Wizard(ActionDecider decider) {
+        super("Wizard", 200, 50, 10, 20, decider, new ArcaneBlastAction());
     }
 }

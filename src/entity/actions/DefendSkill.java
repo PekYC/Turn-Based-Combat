@@ -1,25 +1,35 @@
 package entity.actions;
 
-import entity.Combatants;
+
+import entity.Combatant;
 import entity.TurnSummary;
+import entity.effects.DefendEffect;
 import entity.ActionType;
 import java.util.List;
 
-public class DefendSkill implements Action {
-	@Override
-    public TurnSummary execute(Combatants user, List<Combatants> targets) {
-        // Increases defense by 10 for the current round and the next round (2 turns) 
-        user.setDefending(2);
+public class DefendSkill extends Action {
+    public DefendSkill() {
+		super("Defend", TargetType.SELF);
+		// TODO Auto-generated constructor stub
+	}
 
+	@Override
+    public TurnSummary execute(Combatant user, List<Combatant> targets) {
+        user.applyStatus(new DefendEffect());
+        
         return new TurnSummary(
-            user.getName(), 
-            user.getName(), 
-            ActionType.DEFEND, 
-            0, 
-            0, 
-            false, 
+            user.getName(),
+            user.getName(),
+            ActionType.DEFEND,
+            0,
+            0,
             false,
-            false
+            false,
+            false,
+            user.getHp(),
+            user.getHp(),
+            0,
+            0
         );
     }
 }

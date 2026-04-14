@@ -1,21 +1,10 @@
 package entity;
 
-public class Goblin extends Combatants {
-	public Goblin(String id) {
-        // HP: 55, Attack: 35, Defense: 15, Speed: 25
-        super("Goblin " + id, 55, 35, 15, 25);
-    }
+import control.AutoDecider;
 
-    @Override
-    public void performTurn(BattleState state) {
-        if (isStunned()) {
-            this.lastTurnSummary = new TurnSummary(
-                this.name, 
-                this.name, 
-                ActionType.STUNNED_SKIP, 
-                0, 0, false, false, false
-            );
-            return;
-        }
+public class Goblin extends Combatant {
+
+    public Goblin(String id) {
+        super("Goblin " + id, 60, 30, 10, 25, new AutoDecider());
     }
 }
