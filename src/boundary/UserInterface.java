@@ -18,7 +18,7 @@ public interface UserInterface {
 	
 	List<Item> promptItemSelection();
 	
-	void displayBattleState(Combatants player, List <Combatants> enemies, int roundNumber);
+	void displayBattleState(Combatants player, List <Combatants> enemies, int roundNumber); 
 	
 	int promptPlayerAction();
 	

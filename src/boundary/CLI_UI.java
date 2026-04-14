@@ -202,6 +202,6 @@ public class CLI_UI implements UserInterface {
 			} catch (NumberFormatException e) {
 				System.out.print("That's not a number! Please enter a number (" + min + "-" + max + "): ");
 			}
-		}
+		} 
 	}
 }
