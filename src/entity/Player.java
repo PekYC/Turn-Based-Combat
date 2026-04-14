@@ -26,4 +26,6 @@ public abstract class Player extends Combatant {
 	public void giveItems(List<Item> items) { this.items = items; }
 	public SpecialAbility getAbility() { return ability; }
 
+	
+	public List<Item> getItems() { return items; }
 }
