@@ -33,4 +33,3 @@ public interface UserInterface {
     
     void endOfBattleReport(BattleState state);
 }
-

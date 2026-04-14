@@ -1,28 +1,25 @@
 package boundary;
 
 import java.util.Scanner;
-
-import control.CLIDecider;
-
 import java.util.List;
 import java.util.ArrayList;
-import entity.Combatant;
-import entity.Wave;
+
 import entity.BattleState;
-import entity.TurnSummary;
-import entity.Warrior;
-import entity.Wizard;
-import entity.Item;
+import entity.Combatant;
 import entity.Player;
+import entity.TurnSummary;
+import entity.Wave;
+import entity.Item;
 import entity.Potion;
 import entity.PowerStone;
 import entity.SmokeBomb;
+import entity.Warrior;
+import entity.Wizard;
 import entity.actions.Action;
 import entity.actions.BasicAttack;
 import entity.actions.DefendSkill;
-import entity.actions.ShieldBash;
-import entity.actions.ArcaneBlastAction;
-import entity.ActionType;
+import entity.actions.TargetType;
+import entity.actions.UseItemAction;
 
 public class CLI_UI implements UserInterface {
 	
@@ -47,7 +44,7 @@ public class CLI_UI implements UserInterface {
 		System.out.println("2. Medium");
 		System.out.println("3. Hard");
 		System.out.print("Enter choice (1-3): ");
-		return scanner.nextInt(); 
+		return getValidInput(1, 3); 
 	}
 
 	@Override
@@ -57,18 +54,17 @@ public class CLI_UI implements UserInterface {
 		System.out.println("2. Wizard");
 		System.out.print("Enter choice (1-2): ");
 		
-		int choice = scanner.nextInt();
+		int choice = getValidInput(1, 2);
 		
 		if (choice == 1) {
-			return new Warrior(new CLIDecider(this)); 
+			return new Warrior(); 
 		} else {
-			return new Wizard(new CLIDecider(this));
+			return new Wizard();  
 		}
 	}
 
 	@Override
 	public List<Item> promptItemSelection() {
-		// FIXED: Now holds Item objects instead of Strings
 		List<Item> selectedItems = new ArrayList<>(); 
 		System.out.println("\nSelect 2 Starting Items (Duplicates allowed):");
 		System.out.println("1. Potion (Heals HP)");
@@ -77,9 +73,8 @@ public class CLI_UI implements UserInterface {
 		
 		for (int i = 1; i <= 2; i++) {
 			System.out.print("Choose Item " + i + " (1-3): ");
-			int choice = scanner.nextInt();
+			int choice = getValidInput(1, 3);
 			
-			// FIXED: Creating the actual objects now
 			if (choice == 1) selectedItems.add(new Potion());
 			else if (choice == 2) selectedItems.add(new PowerStone());
 			else if (choice == 3) selectedItems.add(new SmokeBomb());
@@ -89,60 +84,56 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public Action promptAction(Player player, BattleState state) {
-		System.out.println("\n--- PLAYER TURN: " + player.getName() + " ---");
-		System.out.println("HP: " + player.getHp() + "/" + player.getMaxHp() + " | CD: " + player.getSpecialCooldown());
-		System.out.println("Choose Action:");
+		System.out.println("\nChoose Action:");
 		System.out.println("1. Basic Attack");
 		System.out.println("2. Defend");
-		System.out.println("3. Special Skill");
-		System.out.print("Enter choice (1-3): ");
+		System.out.println("3. Use Item");
+		System.out.println("4. Special Skill (" + player.getAbility().getName() + ")");
+		System.out.print("Enter choice (1-4): ");
 		
-		int choice = scanner.nextInt();
-		return switch (choice) {
-			case 2 -> new DefendSkill();
-			case 3 -> player.getAbility();
-			default -> new BasicAttack();
-		};
+		int choice = getValidInput(1, 4);
+		
+		if (choice == 1) {
+			return new BasicAttack(); 
+		} else if (choice == 2) {
+			return new DefendSkill(); 
+		} else if (choice == 3) {
+			
+			System.out.println("\n(Waiting on Engine team to add getItems() to Player.java!)");
+			return promptAction(player, state); // Loops back to the menu for now
+		} else {
+			return player.getAbility(); 
+		}
 	}
 
 	@Override
 	public List<Combatant> promptTargets(Action action, BattleState state) {
-		List<Combatant> enemies = state.getActiveEnemies();
-		System.out.println("\nSelect Target:");
-		for (int i = 0; i < enemies.size(); i++) {
-			Combatant e = enemies.get(i);
-			if (e.isAlive()) {
-				System.out.println((i + 1) + ". " + e.getName() + " (HP: " + e.getHp() + ")");
+		List<Combatant> targets = new ArrayList<>();
+		
+		if (action.getTargeting() == TargetType.SINGLE) {
+			List<Combatant> enemies = state.getActiveEnemies();
+			System.out.println("\nSelect a Target:");
+			for (int i = 0; i < enemies.size(); i++) {
+				System.out.println((i + 1) + ". " + enemies.get(i).getName() + " (HP: " + enemies.get(i).getHp() + ")");
 			}
+			int choice = getValidInput(1, enemies.size());
+			targets.add(enemies.get(choice - 1));
+		} 
+		else {
+			System.out.println("Target auto-selected for " + action.getName() + ".");
 		}
-		System.out.print("Enter choice: ");
-		int choice = scanner.nextInt();
-		return List.of(enemies.get(choice - 1));
+		
+		return targets;
 	}
 
 	@Override
-	public void displayMessage(String message) {
-		System.out.println(message);
-	}
-
-	@Override
-	public void endOfBattleReport(BattleState state) {
-		System.out.println("\n[Battle Report] Ending game state recorded.");
-		if (state.getPlayer().isAlive()) {
-			System.out.println("Final Result: VICTORY");
-		} else {
-			System.out.println("Final Result: DEFEAT");
-		}
+	public void display(BattleState state) {
+		System.out.println("\n--- BATTLE STATE UPDATE ---");
 	}
 
 	@Override
 	public void display(TurnSummary turnSummary) {
-		if (turnSummary.getActionType() == ActionType.STUNNED_SKIP) {
-			System.out.println("\n" + turnSummary.getAttackerName() + " is stunned and skips their turn!");
-			return;
-		}
-
-		String output = String.format("%s → %s → %s: HP: %d → %d (dmg: %d-%d=%d)",
+		String output = String.format("%s \u2192 %s \u2192 %s: HP: %d \u2192 %d (dmg: %d-%d=%d)",
 			turnSummary.getAttackerName(),
 			turnSummary.getActionType(),
 			turnSummary.getTargetName(),
@@ -153,12 +144,17 @@ public class CLI_UI implements UserInterface {
 			turnSummary.getDamageDealt()
 		);
 		
-		System.out.println("\nTurn Summary: " + output);
+		String extraInfo = "";
+		if (turnSummary.getHealAmount() > 0) extraInfo += " (Healed: " + turnSummary.getHealAmount() + " HP)";
+		if (turnSummary.isTargetStunned()) extraInfo += " [*STUNNED*]";
+		if (turnSummary.isTargetEliminated()) extraInfo += " [*ELIMINATED*]";
+		
+		System.out.println("\nTurn Summary: " + output + extraInfo);
 	}
 
 	@Override
 	public void display(Wave wave) {
-		List<Combatant> waveEnemies = wave.getEnemies(false);
+		List<Combatant> waveEnemies = wave.getEnemies();
 		StringBuilder enemyInfo = new StringBuilder();
 
 		for (int i = 0; i < waveEnemies.size(); i++) {
@@ -170,13 +166,54 @@ public class CLI_UI implements UserInterface {
 			}
 		}
 
-		System.out.println("\nAll initial enemies eliminated → Backup Spawn triggered! " 
-				   + enemyInfo + " enter simultaneously"); 
+		System.out.println("All initial enemies eliminated \u2192 Backup Spawn triggered! " 
+						   + enemyInfo.toString() + " enter simultaneously"); 
 	}
 
 	@Override
-	public void display(BattleState state) {
-		System.out.println("\n--- ROUND " + state.getRoundCount() + " ---");
-		System.out.println("Round state updated.");
+	public void displayMessage(String message) {
+		System.out.println(message);
+	}
+
+	@Override
+	public void endOfBattleReport(BattleState state) {
+		System.out.println("\n[Battle Report] Ending game state recorded.");
+	}
+	
+	private Item promptItemUsageHelper(List<Item> inventory) {
+		if (inventory == null || inventory.isEmpty()) {
+			System.out.println("\nYour inventory is empty!");
+			return null;
+		}
+		
+		System.out.println("\nSelect an item to use:");
+		for (int i = 0; i < inventory.size(); i++) {
+			System.out.println((i + 1) + ". " + inventory.get(i).getClass().getSimpleName());
+		}
+		
+		int cancelOption = inventory.size() + 1;
+		System.out.println(cancelOption + ". Cancel (Go back)");
+		
+		System.out.print("Enter choice (1-" + cancelOption + "): ");
+		int choice = getValidInput(1, cancelOption);
+		
+		if (choice == cancelOption) return null; 
+		return inventory.get(choice - 1); 
+	}
+
+	private int getValidInput(int min, int max) {
+		while (true) {
+			String input = scanner.next(); 
+			try {
+				int choice = Integer.parseInt(input);
+				if (choice >= min && choice <= max) {
+					return choice; 
+				} else {
+					System.out.print("Invalid choice. Please enter a number between " + min + " and " + max + ": ");
+				}
+			} catch (NumberFormatException e) {
+				System.out.print("That's not a number! Please enter a number (" + min + "-" + max + "): ");
+			}
+		}
 	}
 }
