@@ -27,7 +27,9 @@ public abstract class StatusEffect implements EndTurnHandler {
 	
 	public void onAttacking() {	}
 	
-	public void onReceivingAttack() { }
+	public int onReceivingAttack(int damage) {
+		return damage;
+	}
 	
 	public void onExpire() { }
 	

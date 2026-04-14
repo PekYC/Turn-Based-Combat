@@ -13,8 +13,6 @@ public abstract class Combatant implements EndTurnHandler {
     protected int hp, maxHp, attack, defense, speed;
     protected ActionDecider decider;
     
-    protected int stunDuration = 0;  
-    protected int smokeBombDuration = 0; 
     protected List<StatusEffect> statusEffects = new ArrayList<>();
 
     public Combatant(String name, int hp, int attack, int defense, int speed, ActionDecider decider) {
@@ -28,14 +26,14 @@ public abstract class Combatant implements EndTurnHandler {
     }
     
     
-    public int receiveDamage(int rawAtk) {    	
-        if (smokeBombDuration > 0) {
-            return 0; 
+    public int receiveDamage(int rawAtk) {        
+        int currentDef = this.defense;
+        int damageTaken = Math.max(0, rawAtk - currentDef);
+        
+        for (StatusEffect s: this.statusEffects) {
+        	damageTaken = s.onReceivingAttack(damageTaken);
         }
         
-        int currentDef = this.defense;
-
-        int damageTaken = Math.max(0, rawAtk - currentDef);
         this.hp = Math.max(0, this.hp - damageTaken); 
         return damageTaken;
     }
@@ -71,7 +69,6 @@ public abstract class Combatant implements EndTurnHandler {
     }
 
     public boolean isAlive() { return hp > 0; }
-    public boolean isStunned() { return stunDuration > 0; }
     public String getName() { return name; }
     public int getSpeed() { return speed; }
     public int getAttack() { return attack; }
@@ -86,10 +83,5 @@ public abstract class Combatant implements EndTurnHandler {
     	this.statusEffects.add(status);
     	status.onApply();
     }
-    public void setStunned(int duration) { this.stunDuration = duration; }
-    public void setSmokeBombDuration(int duration) { this.smokeBombDuration = duration; }
-    public void boostAttack(int amount) { this.attack += amount; }
-
-
 }
 
