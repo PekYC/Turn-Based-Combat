@@ -1,6 +1,9 @@
 package boundary;
 
 import java.util.Scanner;
+
+import control.CLIDecider;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -57,9 +60,9 @@ public class CLI_UI implements UserInterface {
 		int choice = getValidInput(1, 2);
 		
 		if (choice == 1) {
-			return new Warrior(); 
+			return new Warrior(new CLIDecider(this)); 
 		} else {
-			return new Wizard();  
+			return new Wizard(new CLIDecider(this));  
 		}
 	}
 
@@ -154,7 +157,7 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void display(Wave wave) {
-		List<Combatant> waveEnemies = wave.getEnemies();
+		List<Combatant> waveEnemies = wave.getEnemies(false);
 		StringBuilder enemyInfo = new StringBuilder();
 
 		for (int i = 0; i < waveEnemies.size(); i++) {

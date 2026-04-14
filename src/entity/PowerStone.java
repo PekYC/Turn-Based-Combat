@@ -1,13 +1,13 @@
 package entity;
 
-public class PowerStone implements Item {
+import entity.actions.TargetType;
 
-    @Override
-    public String getName() { return "Power Stone"; }
+public class PowerStone extends Item {
 
-    @Override
-    public String getDescription() { return "Free use of special skill (no cooldown change)"; }
-
+    public PowerStone() {
+		super("Power Stone", "Free use of special skill (no cooldown change)", TargetType.SELF);
+		// TODO Auto-generated constructor stub
+	}
     @Override
     public void use(Player user) {
 //        System.out.println(user.getName() + " used Power Stone!");

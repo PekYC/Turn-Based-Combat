@@ -6,7 +6,7 @@ import entity.Potion;
 import entity.PowerStone;
 import entity.SmokeBomb;
 import entity.TurnSummary;
-import entity.ActionType;
+
 import java.util.List;
 
 public class UseItemAction extends Action {
@@ -40,7 +40,7 @@ public class UseItemAction extends Action {
 		return new TurnSummary(
 			user.getName(), 
 			user.getName(), 
-			ActionType.USE_ITEM, 
+			ActionType.ITEM_USE, 
 			0,             // damageDealt
 			healAmount,    // healAmount
 			false,         // targetStunned

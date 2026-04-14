@@ -4,7 +4,7 @@ package entity.actions;
 import entity.Combatant;
 import entity.TurnSummary;
 import entity.effects.DefendEffect;
-import entity.ActionType;
+
 import java.util.List;
 
 public class DefendSkill extends Action {

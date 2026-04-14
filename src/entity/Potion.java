@@ -1,12 +1,13 @@
 package entity;
 
-public class Potion implements Item {
+import entity.actions.TargetType;
 
-    @Override
-    public String getName() { return "Potion"; }
+public class Potion extends Item {
 
-    @Override
-    public String getDescription() { return "Restores 100 HP (capped at max HP)"; }
+    public Potion() {
+		super("Potion", "Restores 100 HP (capped at max HP)", TargetType.SELF);
+		// TODO Auto-generated constructor stub
+	}
 
     @Override
     public void use(Player user) {
