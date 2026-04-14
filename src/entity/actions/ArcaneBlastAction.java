@@ -7,13 +7,13 @@ import entity.ArcaneBlastEffect;
 
 import java.util.List;
 
-public class ArcaneBlastAction extends Action {
+public class ArcaneBlastAction extends SpecialAbility {
     public ArcaneBlastAction() {
-		super("Arcane Blast", TargetType.MULTI);
+		super("Arcane Blast", TargetType.MULTI, 3);
 	}
 
 	@Override
-    public TurnSummary execute(Combatant user, List<Combatant> targets) {
+    public TurnSummary performSpecialEffect(Combatant user, List<Combatant> targets) {
 		int number_killed = 0;
 		int damageDealt_temp = 0;
 		int initialHP_temp = 0;

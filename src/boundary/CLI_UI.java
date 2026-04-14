@@ -100,7 +100,7 @@ public class CLI_UI implements UserInterface {
 		int choice = scanner.nextInt();
 		return switch (choice) {
 			case 2 -> new DefendSkill();
-			case 3 -> (player instanceof Warrior) ? new ShieldBash() : new ArcaneBlastAction();
+			case 3 -> player.getAbility();
 			default -> new BasicAttack();
 		};
 	}
