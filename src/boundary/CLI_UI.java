@@ -37,7 +37,7 @@ public class CLI_UI implements UserInterface {
 		System.out.println("2. Medium");
 		System.out.println("3. Hard");
 		System.out.print("Enter choice (1-3): ");
-		return scanner.nextInt(); 
+		return getValidInput(1, 3); 
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class CLI_UI implements UserInterface {
 		System.out.println("2. Wizard");
 		System.out.print("Enter choice (1-2): ");
 		
-		int choice = scanner.nextInt();
+		int choice = getValidInput(1, 2);
 		
 		if (choice == 1) {
 			return new Warrior(); 
@@ -58,7 +58,6 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public List<Item> promptItemSelection() {
-		// FIXED: Now holds Item objects instead of Strings
 		List<Item> selectedItems = new ArrayList<>(); 
 		System.out.println("\nSelect 2 Starting Items (Duplicates allowed):");
 		System.out.println("1. Potion (Heals HP)");
@@ -67,9 +66,8 @@ public class CLI_UI implements UserInterface {
 		
 		for (int i = 1; i <= 2; i++) {
 			System.out.print("Choose Item " + i + " (1-3): ");
-			int choice = scanner.nextInt();
+			int choice = getValidInput(1, 3);
 			
-			// FIXED: Creating the actual objects now
 			if (choice == 1) selectedItems.add(new Potion());
 			else if (choice == 2) selectedItems.add(new PowerStone());
 			else if (choice == 3) selectedItems.add(new SmokeBomb());
@@ -99,7 +97,32 @@ public class CLI_UI implements UserInterface {
 		System.out.println("3. Use Item");
 		System.out.println("4. Special Skill");
 		System.out.print("Enter choice (1-4): ");
-		return scanner.nextInt();
+		return getValidInput(1, 4);
+	}
+	
+	@Override
+	public Item promptItemUsage(List<Item> inventory) {
+		if (inventory == null || inventory.isEmpty()) {
+			System.out.println("\nYour inventory is empty!");
+			return null;
+		}
+		
+		System.out.println("\nSelect an item to use:");
+		for (int i = 0; i < inventory.size(); i++) {
+			System.out.println((i + 1) + ". " + inventory.get(i).getClass().getSimpleName());
+		}
+		
+		int cancelOption = inventory.size() + 1;
+		System.out.println(cancelOption + ". Cancel (Go back)");
+		
+		System.out.print("Enter choice (1-" + cancelOption + "): ");
+		int choice = getValidInput(1, cancelOption);
+		
+		if (choice == cancelOption) {
+			return null; 
+		} else {
+			return inventory.get(choice - 1); 
+		}
 	}
 
 	@Override
@@ -130,19 +153,19 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void display(TurnSummary turnSummary) {
-		String output = String.format("%s → %s → %s: HP: %d → %d (dmg: %d-%d=%d)",
-			turnSummary.getAttackerName(),
-			turnSummary.getActionType(),
-			turnSummary.getTargetName(),
-			turnSummary.getInitialHP(),
-			turnSummary.getFinalHP(),
-			turnSummary.getRawDamage(),
-			turnSummary.getMitigatedAmount(),
-			turnSummary.getDamageDealt()
-		);
+		String actionStr = turnSummary.getAttackerName() + " \u2192 " + 
+						   turnSummary.getActionType() + " \u2192 " + 
+						   turnSummary.getTargetName();
 		
-		System.out.println("\nTurn Summary: " + output);
+		String resultStr = "";
+		if (turnSummary.getDamageDealt() > 0) resultStr += " (Damage: " + turnSummary.getDamageDealt() + ")";
+		if (turnSummary.getHealAmount() > 0) resultStr += " (Healed: " + turnSummary.getHealAmount() + " HP)";
+		if (turnSummary.isTargetStunned()) resultStr += " [*STUNNED*]";
+		if (turnSummary.isTargetEliminated()) resultStr += " [*ELIMINATED*]";
+		
+		System.out.println("\nTurn Summary: " + actionStr + resultStr);
 	}
+
 	@Override
 	public void display(Wave wave) {
 		List<Combatants> waveEnemies = wave.getEnemies();
@@ -158,7 +181,7 @@ public class CLI_UI implements UserInterface {
 		}
 
 		System.out.println("All initial enemies eliminated \u2192 Backup Spawn triggered! " 
-				   + enemyInfo + " enter simultaneously"); 
+						   + enemyInfo.toString() + " enter simultaneously"); 
 	}
 
 	@Override
@@ -166,5 +189,19 @@ public class CLI_UI implements UserInterface {
 		System.out.println("\nCurrent round state updated.");
 	}
 	
-
+	private int getValidInput(int min, int max) {
+		while (true) {
+			String input = scanner.next(); 
+			try {
+				int choice = Integer.parseInt(input);
+				if (choice >= min && choice <= max) {
+					return choice; 
+				} else {
+					System.out.print("Invalid choice. Please enter a number between " + min + " and " + max + ": ");
+				}
+			} catch (NumberFormatException e) {
+				System.out.print("That's not a number! Please enter a number (" + min + "-" + max + "): ");
+			}
+		}
+	}
 }

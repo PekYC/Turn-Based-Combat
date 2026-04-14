@@ -22,6 +22,8 @@ public interface UserInterface {
 	
 	int promptPlayerAction();
 	
+	Item promptItemUsage(List<Item> inventory);
+	
 	void displayVictoryScreen(int remainingHp, int totalRounds);
 	
 	void displayDefeatScreen(int enemiesRemaining, int totalRounds);
