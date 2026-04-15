@@ -21,6 +21,7 @@ import entity.Wizard;
 import entity.actions.Action;
 import entity.actions.BasicAttack;
 import entity.actions.DefendSkill;
+import entity.actions.ShieldBash;
 import entity.actions.TargetType;
 import entity.actions.UseItemAction;
 
@@ -79,7 +80,7 @@ public class CLI_UI implements UserInterface {
 			int choice = getValidInput(1, 3);
 			
 			if (choice == 1) selectedItems.add(new Potion());
-			else if (choice == 2) selectedItems.add(new PowerStone());
+			else if (choice == 2) selectedItems.add(new PowerStone(new ShieldBash()));
 			else if (choice == 3) selectedItems.add(new SmokeBomb());
 		}
 		return selectedItems;

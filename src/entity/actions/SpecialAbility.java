@@ -16,6 +16,7 @@ public abstract class SpecialAbility extends Action implements EndTurnHandler {
 		this.currentCooldown = 0;
 	}
 	
+	@Override
 	public boolean isReady() {
 		return currentCooldown <= 0;
 	}
@@ -32,6 +33,12 @@ public abstract class SpecialAbility extends Action implements EndTurnHandler {
 		return summary;
 	}
 	
-	protected abstract TurnSummary performSpecialEffect(Combatant user, List<Combatant> targets);
+	public abstract TurnSummary performSpecialEffect(Combatant user, List<Combatant> targets);
+	
+	
+	//temp
+	public int getCooldown() {
+		return this.currentCooldown;
+	}
 
 }

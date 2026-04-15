@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 import entity.actions.TargetType;
 import entity.effects.SmokeBombEffect;
 
@@ -8,8 +10,9 @@ public class SmokeBomb extends Item {
 		super("Smoke Bomb", "Enemy attacks deal 0 damage for 2 turns", TargetType.SELF);
 	}
 
-    public void use(Player user) {
+	@Override
+	public TurnSummary use(Combatant user, List<Combatant> targets) {
     	user.applyStatus(new SmokeBombEffect());
-//        System.out.println(user.getName() + " used Smoke Bomb! Enemy attacks deal 0 damage for 2 turns.");
-    }
+		return new TurnSummary();
+	}
 }

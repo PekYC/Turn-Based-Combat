@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 import entity.actions.TargetType;
 
 public abstract class Item {
@@ -17,5 +19,6 @@ public abstract class Item {
     public String getDescription() { return description; }
     public TargetType getTargeting() { return targeting; }
     
-    public abstract void use(Player user);
+    public abstract TurnSummary use(Combatant user, List<Combatant> targets);
+    // remember to automate the removing of item
 }

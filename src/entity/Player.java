@@ -20,6 +20,8 @@ public abstract class Player extends Combatant {
 	@Override
 	public void endTurn() {
 		super.endTurn();
+
+    	System.out.println(this.ability.getCooldown());
 		ability.endTurn();
 	}
 	
