@@ -68,7 +68,7 @@ public class CLI_UI implements UserInterface {
 	}
 
 	@Override
-	public List<Item> promptItemSelection() {
+	public List<Item> promptItemSelection(Player user) {
 		List<Item> selectedItems = new ArrayList<>(); 
 		System.out.println("\nSelect 2 Starting Items (Duplicates allowed):");
 		System.out.println("1. Potion (Heals HP)");
@@ -80,7 +80,7 @@ public class CLI_UI implements UserInterface {
 			int choice = getValidInput(1, 3);
 			
 			if (choice == 1) selectedItems.add(new Potion());
-			else if (choice == 2) selectedItems.add(new PowerStone(new ShieldBash()));
+			else if (choice == 2) selectedItems.add(new PowerStone(user.getAbility()));
 			else if (choice == 3) selectedItems.add(new SmokeBomb());
 		}
 		return selectedItems;

@@ -17,7 +17,7 @@ public interface UserInterface {
     
     Player promptCharacterSelection();
     
-    List<Item> promptItemSelection();
+    List<Item> promptItemSelection(Player player);
     
     Action promptAction(Player player, BattleState state);
     

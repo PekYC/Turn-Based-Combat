@@ -29,7 +29,7 @@ public class App {
         Player characterClass = ui.promptCharacterSelection();
 
         // Items: CLI_UI returns List<Item> directly
-        characterClass.giveItems(ui.promptItemSelection());
+        characterClass.giveItems(ui.promptItemSelection(characterClass));
 
         // 2. Initialize the Game State (Entity)
         BattleState state = new BattleState(difficulty, characterClass);
