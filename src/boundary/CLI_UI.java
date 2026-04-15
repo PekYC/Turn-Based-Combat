@@ -110,7 +110,6 @@ public class CLI_UI implements UserInterface {
 	public List<Combatant> promptTargets(Action action, BattleState state) {
 		List<Combatant> targets = new ArrayList<>();
 		
-		// 1. Single Target: Ask the player who to hit
 		if (action.getTargeting() == TargetType.SINGLE) {
 			List<Combatant> enemies = state.getActiveEnemies();
 			System.out.println("\nSelect a Target:");
@@ -120,7 +119,6 @@ public class CLI_UI implements UserInterface {
 			int choice = getValidInput(1, enemies.size());
 			targets.add(enemies.get(choice - 1));
 		} 
-		// 2. Multi Target (AoE): Automatically target and display all enemies!
 		else if (action.getTargeting() == TargetType.MULTI) {
 			List<Combatant> enemies = state.getActiveEnemies();
 			System.out.println("\n[" + action.getName() + "] targets ALL active enemies!");
@@ -129,7 +127,6 @@ public class CLI_UI implements UserInterface {
 				targets.add(enemy); 
 			}
 		} 
-		// 3. Self Target (Defend / Items): Auto-selects without needing a list
 		else if (action.getTargeting() == TargetType.SELF) {
 			System.out.println("\nTarget auto-selected (Self) for " + action.getName() + ".");
 		}
