@@ -100,7 +100,7 @@ public class CLI_UI implements UserInterface {
 		} else if (choice == 3) {
 			
 			System.out.println("\n(Waiting on Engine team to add getItems() to Player.java!)");
-			return promptAction(player, state); // Loops back to the menu for now
+			return promptAction(player, state); 
 		} else {
 			return player.getAbility(); 
 		}
@@ -119,13 +119,20 @@ public class CLI_UI implements UserInterface {
 			int choice = getValidInput(1, enemies.size());
 			targets.add(enemies.get(choice - 1));
 		} 
-		else {
-			System.out.println("Target auto-selected for " + action.getName() + ".");
+		else if (action.getTargeting() == TargetType.MULTI) {
+			List<Combatant> enemies = state.getActiveEnemies();
+			System.out.println("\n[" + action.getName() + "] targets ALL active enemies!");
+			for (Combatant enemy : enemies) {
+				System.out.println(" \u2192 Lock-on: " + enemy.getName() + " (HP: " + enemy.getHp() + ")");
+				targets.add(enemy);
+			}
+		} 
+		else if (action.getTargeting() == TargetType.SELF) {
+			System.out.println("\nTarget auto-selected (Self) for " + action.getName() + ".");
 		}
 		
 		return targets;
 	}
-
 	@Override
 	public void display(BattleState state) {
 		System.out.println("\n--- BATTLE STATE UPDATE ---");
