@@ -2,9 +2,7 @@ package entity.actions;
 
 import entity.Combatant;
 import entity.Item;
-import entity.Potion;
-import entity.PowerStone;
-import entity.SmokeBomb;
+import entity.Player;
 import entity.TurnSummary;
 
 import java.util.List;
@@ -19,6 +17,7 @@ public class UseItemAction extends Action {
 
 	@Override
 	public TurnSummary execute(Combatant user, List<Combatant> targets) {
+		((Player) user).removeItem(item);
 		return item.use(user, targets);
 	}
 }

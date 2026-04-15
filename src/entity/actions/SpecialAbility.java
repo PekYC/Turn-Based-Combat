@@ -34,11 +34,5 @@ public abstract class SpecialAbility extends Action implements EndTurnHandler {
 	}
 	
 	public abstract TurnSummary performSpecialEffect(Combatant user, List<Combatant> targets);
-	
-	
-	//temp
-	public int getCooldown() {
-		return this.currentCooldown;
-	}
 
 }

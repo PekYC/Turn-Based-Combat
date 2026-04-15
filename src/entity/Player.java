@@ -20,14 +20,15 @@ public abstract class Player extends Combatant {
 	@Override
 	public void endTurn() {
 		super.endTurn();
-
-    	System.out.println(this.ability.getCooldown());
 		ability.endTurn();
 	}
 	
 	public void giveItems(List<Item> items) { this.items = items; }
-	public SpecialAbility getAbility() { return ability; }
-
+	public void removeItem(Item item) {
+		this.items.remove(item);
+	}
 	
+	
+	public SpecialAbility getAbility() { return ability; }
 	public List<Item> getItems() { return items; }
 }

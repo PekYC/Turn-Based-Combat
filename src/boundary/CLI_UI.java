@@ -72,8 +72,8 @@ public class CLI_UI implements UserInterface {
 		List<Item> selectedItems = new ArrayList<>(); 
 		System.out.println("\nSelect 2 Starting Items (Duplicates allowed):");
 		System.out.println("1. Potion (Heals HP)");
-		System.out.println("2. Power Stone (Boosts next attack)");
-		System.out.println("3. Smoke Bomb (Dodges next attack)");
+		System.out.println("2. Power Stone (Free skill use)");
+		System.out.println("3. Smoke Bomb (Invulnerable for 2 turns)");
 		
 		for (int i = 1; i <= 2; i++) {
 			System.out.print("Choose Item " + i + " (1-3): ");
@@ -102,9 +102,7 @@ public class CLI_UI implements UserInterface {
 		} else if (choice == 2) {
 			return new DefendSkill(); 
 		} else if (choice == 3) {
-			
-			System.out.println("\n(Waiting on Engine team to add getItems() to Player.java!)");
-			return promptAction(player, state); // Loops back to the menu for now
+			return promptItemUsageHelper(player.getItems());
 		} else {
 			return player.getAbility(); 
 		}
@@ -184,7 +182,7 @@ public class CLI_UI implements UserInterface {
 		System.out.println("\n[Battle Report] Ending game state recorded.");
 	}
 	
-	private Item promptItemUsageHelper(List<Item> inventory) {
+	private UseItemAction promptItemUsageHelper(List<Item> inventory) {
 		if (inventory == null || inventory.isEmpty()) {
 			System.out.println("\nYour inventory is empty!");
 			return null;
@@ -202,7 +200,7 @@ public class CLI_UI implements UserInterface {
 		int choice = getValidInput(1, cancelOption);
 		
 		if (choice == cancelOption) return null; 
-		return inventory.get(choice - 1); 
+		return new UseItemAction(inventory.get(choice - 1)); 
 	}
 
 	private int getValidInput(int min, int max) {
