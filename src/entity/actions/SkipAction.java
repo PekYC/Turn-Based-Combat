@@ -2,7 +2,6 @@ package entity.actions;
 
 import java.util.List;
 
-import entity.ActionType;
 import entity.Combatant;
 import entity.TurnSummary;
 

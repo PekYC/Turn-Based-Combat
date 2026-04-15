@@ -1,4 +1,4 @@
-package entity;
+package entity.actions;
 
 public enum ActionType {
 	BASIC_ATTACK,

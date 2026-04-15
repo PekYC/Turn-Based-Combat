@@ -1,5 +1,7 @@
 package entity;
 
+import entity.actions.ActionType;
+
 public class TurnSummary {
     private final String attackerName;
     private final String targetName;

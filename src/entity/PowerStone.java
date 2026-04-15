@@ -1,17 +1,19 @@
 package entity;
 
-public class PowerStone implements Item {
+import java.util.List;
 
-    @Override
-    public String getName() { return "Power Stone"; }
+import entity.actions.SpecialAbility;
 
-    @Override
-    public String getDescription() { return "Free use of special skill (no cooldown change)"; }
+public class PowerStone extends Item {
+	SpecialAbility ability;
 
-    @Override
-    public void use(Player user) {
-//        System.out.println(user.getName() + " used Power Stone!");
-        int savedCooldown = user.getSpecialCooldown();
-        user.setSpecialCooldown(savedCooldown); // restore — Power Stone does not affect cooldown
-    }
+    public PowerStone(SpecialAbility ability) {
+		super("Power Stone", "Free use of special skill (no cooldown change)", ability.getTargeting());
+		this.ability = ability;
+	}
+
+	@Override
+	public TurnSummary use(Combatant user, List<Combatant> targets) {
+		return ability.performSpecialEffect(user, targets);
+	}
 }

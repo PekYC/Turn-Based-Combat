@@ -3,7 +3,7 @@ package entity.actions;
 import entity.Combatant;
 import entity.TurnSummary;
 import entity.effects.StunEffect;
-import entity.ActionType;
+
 import java.util.List;
 
 public class ShieldBash extends SpecialAbility {

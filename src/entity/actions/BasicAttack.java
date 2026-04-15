@@ -2,7 +2,7 @@ package entity.actions;
 
 import entity.Combatant;
 import entity.TurnSummary;
-import entity.ActionType;
+
 import java.util.List;
 
 public class BasicAttack extends Action {

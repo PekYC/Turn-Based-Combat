@@ -20,7 +20,14 @@ public class CLIDecider implements ActionDecider {
 	public TurnSummary decide(Combatant self, BattleState state) {
 
 	    if (self instanceof Player player) {
-	    	Action action = userInput.promptAction(player, state);
+	    	Action action;
+	    	do {
+	    		action = userInput.promptAction(player, state);
+	    		if (!action.isReady()) {
+	    			System.out.println("Skill is on cooldown");
+	    		}
+	    		
+	    	} while (!action.isReady());
 	    	List<Combatant> targets = switch(action.getTargeting()) {
 	    		case SINGLE -> userInput.promptTargets(action, state);
 	    		case MULTI -> state.getActiveEnemies();
