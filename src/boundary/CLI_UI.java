@@ -21,7 +21,7 @@ import entity.actions.DefendSkill;
 import entity.actions.TargetType;
 import entity.actions.UseItemAction;
 
-public class CLI_UI implements UserInterface { 
+public class CLI_UI implements UserInterface {
 	
 	private Scanner scanner;
 	
@@ -57,14 +57,14 @@ public class CLI_UI implements UserInterface {
 		int choice = getValidInput(1, 2);
 		
 		if (choice == 1) {
-			return new Warrior(null); 
+			return new Warrior(new control.CLIDecider(this)); 
 		} else {
-			return new Wizard(null);  
+			return new Wizard(new control.CLIDecider(this));  
 		}
 	}
 
 	@Override
-	public List<Item> promptItemSelection(Player player) { 
+	public List<Item> promptItemSelection(Player player) {
 		List<Item> selectedItems = new ArrayList<>(); 
 		System.out.println("\nSelect 2 Starting Items for your " + player.getClass().getSimpleName() + " (Duplicates allowed):");
 		System.out.println("1. Potion (Heals HP)");
@@ -165,7 +165,6 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void display(Wave wave) {
-		
 		List<Combatant> waveEnemies = wave.getEnemies(false); 
 		StringBuilder enemyInfo = new StringBuilder();
 
