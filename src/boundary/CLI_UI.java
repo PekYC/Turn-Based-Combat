@@ -21,7 +21,7 @@ import entity.actions.DefendSkill;
 import entity.actions.TargetType;
 import entity.actions.UseItemAction;
 
-public class CLI_UI implements UserInterface {
+public class CLI_UI implements UserInterface { 
 	
 	private Scanner scanner;
 	
