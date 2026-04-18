@@ -57,16 +57,16 @@ public class CLI_UI implements UserInterface {
 		int choice = getValidInput(1, 2);
 		
 		if (choice == 1) {
-			return new Warrior(); 
+			return new Warrior(null); 
 		} else {
-			return new Wizard();  
+			return new Wizard(null);  
 		}
 	}
 
 	@Override
-	public List<Item> promptItemSelection() {
+	public List<Item> promptItemSelection(Player player) { 
 		List<Item> selectedItems = new ArrayList<>(); 
-		System.out.println("\nSelect 2 Starting Items (Duplicates allowed):");
+		System.out.println("\nSelect 2 Starting Items for your " + player.getClass().getSimpleName() + " (Duplicates allowed):");
 		System.out.println("1. Potion (Heals HP)");
 		System.out.println("2. Power Stone (Boosts next attack)");
 		System.out.println("3. Smoke Bomb (Dodges next attack)");
@@ -76,7 +76,7 @@ public class CLI_UI implements UserInterface {
 			int choice = getValidInput(1, 3);
 			
 			if (choice == 1) selectedItems.add(new Potion());
-			else if (choice == 2) selectedItems.add(new PowerStone());
+			else if (choice == 2) selectedItems.add(new PowerStone(player.getAbility()));
 			else if (choice == 3) selectedItems.add(new SmokeBomb());
 		}
 		return selectedItems;
@@ -110,6 +110,7 @@ public class CLI_UI implements UserInterface {
 	public List<Combatant> promptTargets(Action action, BattleState state) {
 		List<Combatant> targets = new ArrayList<>();
 		
+		
 		if (action.getTargeting() == TargetType.SINGLE) {
 			List<Combatant> enemies = state.getActiveEnemies();
 			System.out.println("\nSelect a Target:");
@@ -119,6 +120,7 @@ public class CLI_UI implements UserInterface {
 			int choice = getValidInput(1, enemies.size());
 			targets.add(enemies.get(choice - 1));
 		} 
+		
 		else if (action.getTargeting() == TargetType.MULTI) {
 			List<Combatant> enemies = state.getActiveEnemies();
 			System.out.println("\n[" + action.getName() + "] targets ALL active enemies!");
@@ -127,6 +129,7 @@ public class CLI_UI implements UserInterface {
 				targets.add(enemy); 
 			}
 		} 
+		
 		else if (action.getTargeting() == TargetType.SELF) {
 			System.out.println("\nTarget auto-selected (Self) for " + action.getName() + ".");
 		}
@@ -162,7 +165,8 @@ public class CLI_UI implements UserInterface {
 
 	@Override
 	public void display(Wave wave) {
-		List<Combatant> waveEnemies = wave.getEnemies();
+		
+		List<Combatant> waveEnemies = wave.getEnemies(false); 
 		StringBuilder enemyInfo = new StringBuilder();
 
 		for (int i = 0; i < waveEnemies.size(); i++) {
