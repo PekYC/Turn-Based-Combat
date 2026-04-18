@@ -2,7 +2,7 @@ package entity.actions;
 
 import entity.Combatant;
 import entity.TurnSummary;
-import entity.ArcaneBlastEffect;
+import entity.effects.ArcaneBlastEffect;
 
 import java.util.List;
 

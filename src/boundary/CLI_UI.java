@@ -68,7 +68,7 @@ public class CLI_UI implements UserInterface {
 		List<Item> selectedItems = new ArrayList<>(); 
 		System.out.println("\nSelect 2 Starting Items for your " + player.getClass().getSimpleName() + " (Duplicates allowed):");
 		System.out.println("1. Potion (Heals HP)");
-		System.out.println("2. Power Stone (Boosts next attack)");
+		System.out.println("2. Power Stone (Grants free skill)");
 		System.out.println("3. Smoke Bomb (Dodges next attack)");
 		
 		for (int i = 1; i <= 2; i++) {

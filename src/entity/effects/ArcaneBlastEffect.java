@@ -1,6 +1,4 @@
-package entity;
-
-import entity.effects.StatusEffect;
+package entity.effects;
 
 public class ArcaneBlastEffect extends StatusEffect {
 
